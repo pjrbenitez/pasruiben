@@ -207,3 +207,24 @@ code, pre, kbd {
     transition-duration: 0.01ms !important;
   }
 }
+/* Accessibility: Skip Link */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: var(--space-4);
+  background: var(--color-accent-blue);
+  color: #ffffff;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  z-index: 9999;
+  text-decoration: none;
+  transition: top var(--transition-fast);
+}
+
+.skip-to-content:focus {
+  top: var(--space-4);
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}

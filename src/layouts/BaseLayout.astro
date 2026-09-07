@@ -15,12 +15,41 @@ interface Props {
 const {
   title = 'Pascual Ruiz Benítez | Tech Lead & Portfolio Interactivo',
   description = 'Portfolio interactivo y CV dinámico de Pascual Ruiz Benítez. Especializado en Backend distribuido (Spring Cloud, Kubernetes), Algoritmia & Trading (MQL/Python), Godot y Multimedia.',
-  image = '/og-image.png',
+  image = '/og-image.jpg',
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = Astro.props;
 
 const siteTitle = title.includes('Pascual Ruiz') ? title : `${title} | Pascual Ruiz Benítez`;
 const fullImageUrl = new URL(getUrl(image), Astro.site).href;
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Pascual Ruiz Benítez",
+  "alternateName": "pjrbenitez",
+  "url": "https://pjrbenitez.github.io/pasruiben/",
+  "jobTitle": "Senior Backend & Cloud-Native Architect | Quantitative Developer",
+  "description": description,
+  "sameAs": [
+    "https://github.com/pjrbenitez",
+    "https://linkedin.com"
+  ],
+  "knowsAbout": [
+    "Java 21",
+    "Spring Boot 3",
+    "Spring Cloud",
+    "Kubernetes",
+    "ArgoCD",
+    "Apache Kafka",
+    "MQL5",
+    "MQL4",
+    "Quantitative Trading",
+    "Python",
+    "Godot 4",
+    "C#",
+    "Classical Piano"
+  ]
+};
 ---
 
 <!doctype html>
@@ -30,6 +59,8 @@ const fullImageUrl = new URL(getUrl(image), Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href={getUrl('/favicon.svg')} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#070b13" />
+    <meta name="color-scheme" content="dark" />
 
     <link rel="canonical" href={canonicalURL} />
 
@@ -39,21 +70,26 @@ const fullImageUrl = new URL(getUrl(image), Astro.site).href;
     <meta name="author" content="Pascual Ruiz Benítez" />
     <meta
       name="keywords"
-      content="Pascual Ruiz, Tech Lead, Java, Spring Boot, Spring Cloud, Kubernetes, ArgoCD, Trading Cuantitativo, MQL5, Python, Godot Engine, Piano Clásico"
+      content="Pascual Ruiz, Tech Lead, Java, Spring Boot, Spring Cloud, Kubernetes, ArgoCD, GitOps, Trading Cuantitativo, MQL5, Python, Godot Engine, Piano Clásico"
     />
 
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={siteTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={fullImageUrl} />
+    <meta property="og:site_name" content="Pascual Ruiz Benítez Portfolio" />
+    <meta property="og:locale" content="es_ES" />
 
+    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={siteTitle} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={fullImageUrl} />
 
+    <!-- Google Fonts Preconnect & Async Swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -61,9 +97,13 @@ const fullImageUrl = new URL(getUrl(image), Astro.site).href;
       rel="stylesheet"
     />
 
+    <!-- Schema.org Structured Data -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+
     <ClientRouter />
   </head>
   <body>
+    <a href="#main-content" class="skip-to-content no-print">Saltar al contenido principal</a>
     <Header />
     <main id="main-content" class="site-main">
       <slot />
@@ -79,4 +119,4 @@ const fullImageUrl = new URL(getUrl(image), Astro.site).href;
     flex-direction: column;
     min-height: calc(100vh - 72px - 280px);
   }
-</style>
+</style>\n

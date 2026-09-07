@@ -76,7 +76,7 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
 ---
 
 ### Fase 3: OptimizaciÃ³n, AuditorÃ­a y Despliegue
-- [ ] **Tarea 9: OptimizaciÃ³n SEO, Accesibilidad y Rendimiento (Lighthouse 100/100)**
+- [x] **Tarea 9: OptimizaciÃ³n SEO, Accesibilidad y Rendimiento (Lighthouse 100/100)**
   - Configurar `sitemap-xml`, `robots.txt` y metaetiquetas OpenGraph completas para redes sociales.
   - AuditorÃ­a de accesibilidad (WCAG AA compliant, navegaciÃ³n por teclado, roles ARIA).
   - OptimizaciÃ³n de imÃ¡genes y compresiÃ³n de activos estÃ¡ticos.
