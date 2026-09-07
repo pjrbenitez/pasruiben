@@ -1,46 +1,26 @@
 ---
-import { getUrl } from '../../utils/paths';
+import { getLocaleFromUrl, getLocalizedPath } from '../../i18n/utils';
+import { HOME_TRANSLATIONS } from '../../i18n/home';
+import type { Locale } from '../../i18n/languages';
 
-const spotlights = [
-  {
-    category: 'Backend & Cloud',
-    badgeClass: 'badge-backend',
-    title: 'Arquitectura de Microservicios Cloud-Native Resiliente',
-    summary: 'Plataforma transaccional con Java 21, Spring Cloud y orquestación GitOps con ArgoCD en clúster Kubernetes multizona.',
-    metrics: '99.99% Uptime &bull; Despliegues Zero-Downtime',
-    tags: ['Spring Cloud', 'Kubernetes', 'ArgoCD', 'Kafka'],
-    href: '/backend',
-  },
-  {
-    category: 'Algoritmia & Trading',
-    badgeClass: 'badge-trading',
-    title: 'Expert Advisor de Cobertura Dinámica y Gestión de Riesgo',
-    summary: 'Estrategia algorítmica para MetaTrader 5 con dimensionamiento de lote por volatilidad y pipeline cuantitativo en Python.',
-    metrics: 'Profit Factor: 2.18 &bull; Max Drawdown &lt; 6.5%',
-    tags: ['MQL5', 'Python', 'Backtesting', 'Monte Carlo'],
-    href: '/trading',
-  },
-  {
-    category: 'Godot Engine',
-    badgeClass: 'badge-gamedev',
-    title: 'Motor de Simulación Física y Máquina de Estados 2D/3D',
-    summary: 'Arquitectura orientada a simulación interactiva con renderizado optimizado y compilación directa a WebAssembly.',
-    metrics: '60 FPS estables &bull; WebAssembly nativo',
-    tags: ['Godot 4', 'GDScript / C#', 'Shaders', 'Wasm'],
-    href: '/gamedev',
-  },
-];
+interface Props {
+  locale?: Locale;
+}
+
+const pathname = Astro.url.pathname;
+const { locale = getLocaleFromUrl(pathname) } = Astro.props;
+const t = HOME_TRANSLATIONS[locale].spotlight;
 ---
 
 <section class="spotlight-section">
   <div class="container">
     <div class="spotlight-header">
       <div>
-        <span class="badge badge-backend">Showcase</span>
-        <h2 class="spotlight-title">Casos de Estudio & Proyectos Clave</h2>
+        <span class="badge badge-backend">{t.badge}</span>
+        <h2 class="spotlight-title">{t.title}</h2>
       </div>
-      <a href={getUrl('/cv')} class="view-all-link">
-        <span>Ver trayectoria en CV</span>
+      <a href={getLocalizedPath('/cv', locale)} class="view-all-link">
+        <span>{t.viewAllCv}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
@@ -49,7 +29,7 @@ const spotlights = [
     </div>
 
     <div class="spotlight-grid">
-      {spotlights.map((item) => (
+      {t.items.map((item) => (
         <article class="spotlight-card glass-panel">
           <div class="card-meta">
             <span class={`badge ${item.badgeClass}`}>{item.category}</span>
@@ -57,7 +37,7 @@ const spotlights = [
           </div>
 
           <h3 class="card-title">
-            <a href={getUrl(item.href)}>{item.title}</a>
+            <a href={getLocalizedPath(item.href, locale)}>{item.title}</a>
           </h3>
 
           <p class="card-summary">{item.summary}</p>
@@ -68,7 +48,7 @@ const spotlights = [
                 <span class="tag">{tag}</span>
               ))}
             </div>
-            <a href={getUrl(item.href)} class="card-link" aria-label={`Leer caso de estudio: ${item.title}`}>
+            <a href={getLocalizedPath(item.href, locale)} class="card-link" aria-label={`Read: ${item.title}`}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="7" y1="17" x2="17" y2="7"></line>
                 <polyline points="7 7 17 7 17 17"></polyline>

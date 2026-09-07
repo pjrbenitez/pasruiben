@@ -1,5 +1,7 @@
 ---
-import { getUrl } from '../../utils/paths';
+import { getLocaleFromUrl, getLocalizedPath } from '../../i18n/utils';
+import { UI_TRANSLATIONS } from '../../i18n/ui';
+import type { Locale } from '../../i18n/languages';
 
 interface Props {
   strategy: {
@@ -22,10 +24,16 @@ interface Props {
       featured: boolean;
     };
   };
+  locale?: Locale;
 }
 
-const { strategy } = Astro.props;
+const pathname = Astro.url.pathname;
+const { strategy, locale = getLocaleFromUrl(pathname) } = Astro.props;
 const { slug, data } = strategy;
+const cleanSlug = slug.replace(/^(en|es)\//, '');
+const t = UI_TRANSLATIONS[locale].common;
+
+const rulesHeading = locale === 'en' ? 'Rules & Edge' : 'Reglas & Ventajas';
 ---
 
 <article class="strategy-card glass-panel">
@@ -34,11 +42,11 @@ const { slug, data } = strategy;
       <span class="badge badge-trading">{data.strategyType}</span>
       <span class="platform-badge">{data.platform}</span>
     </div>
-    {data.featured && <span class="featured-tag">Estrategia Destacada</span>}
+    {data.featured && <span class="featured-tag">{t.featured}</span>}
   </div>
 
   <h3 class="strategy-title">
-    <a href={getUrl(`/trading/${slug}`)}>
+    <a href={getLocalizedPath(`/trading/${cleanSlug}`, locale)}>
       {data.title}
     </a>
   </h3>
@@ -67,7 +75,7 @@ const { slug, data } = strategy;
 
   <!-- Puntos Clave -->
   <div class="highlights-box">
-    <h4 class="highlights-heading">Reglas & Ventajas</h4>
+    <h4 class="highlights-heading">{rulesHeading}</h4>
     <ul class="highlights-items">
       {data.highlights.slice(0, 3).map((h) => (
         <li>
@@ -88,8 +96,8 @@ const { slug, data } = strategy;
       ))}
     </div>
 
-    <a href={getUrl(`/trading/${slug}`)} class="btn-read-strategy">
-      <span>Ver Backtest & Código</span>
+    <a href={getLocalizedPath(`/trading/${cleanSlug}`, locale)} class="btn-read-strategy">
+      <span>{t.viewBacktest}</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="5" y1="12" x2="19" y2="12"></line>
         <polyline points="12 5 19 12 12 19"></polyline>

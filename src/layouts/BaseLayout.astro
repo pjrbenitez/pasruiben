@@ -3,6 +3,9 @@ import { ClientRouter } from 'astro:transitions';
 import Header from '../components/common/Header.astro';
 import Footer from '../components/common/Footer.astro';
 import { getUrl } from '../utils/paths';
+import { getLocaleFromUrl, getSwitchLocaleUrl } from '../i18n/utils';
+import { UI_TRANSLATIONS } from '../i18n/ui';
+import type { Locale } from '../i18n/languages';
 import '../styles/global.css';
 
 interface Props {
@@ -10,17 +13,35 @@ interface Props {
   description?: string;
   image?: string;
   canonicalURL?: string;
+  locale?: Locale;
 }
 
+const pathname = Astro.url.pathname;
 const {
-  title = 'Pascual Ruiz Benítez | Tech Lead & Portfolio Interactivo',
-  description = 'Portfolio interactivo y CV dinámico de Pascual Ruiz Benítez. Especializado en Backend distribuido (Spring Cloud, Kubernetes), Algoritmia & Trading (MQL/Python), Godot y Multimedia.',
+  locale = getLocaleFromUrl(pathname),
+  title,
+  description: customDesc,
   image = '/og-image.jpg',
-  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  canonicalURL = new URL(pathname, Astro.site).href,
 } = Astro.props;
 
-const siteTitle = title.includes('Pascual Ruiz') ? title : `${title} | Pascual Ruiz Benítez`;
+const defaultTitle = locale === 'en'
+  ? 'Pascual Ruiz Benítez | Tech Lead & Cloud-Native Architect'
+  : 'Pascual Ruiz Benítez | Tech Lead & Portfolio Interactivo';
+
+const defaultDesc = locale === 'en'
+  ? 'Interactive portfolio and dynamic CV of Pascual Ruiz Benítez. Specialized in distributed cloud-native backend (Spring Cloud, Kubernetes), quantitative algorithmic trading (MQL/Python), Godot simulation, and acoustic multimedia.'
+  : 'Portfolio interactivo y CV dinámico de Pascual Ruiz Benítez. Especializado en Backend distribuido (Spring Cloud, Kubernetes), Algoritmia & Trading (MQL/Python), Godot y Multimedia.';
+
+const resolvedTitle = title || defaultTitle;
+const resolvedDesc = customDesc || defaultDesc;
+const siteTitle = resolvedTitle.includes('Pascual Ruiz') ? resolvedTitle : `${resolvedTitle} | Pascual Ruiz Benítez`;
 const fullImageUrl = new URL(getUrl(image), Astro.site).href;
+
+const t = UI_TRANSLATIONS[locale];
+
+const enHref = new URL(getSwitchLocaleUrl(pathname, 'en'), Astro.site).href;
+const esHref = new URL(getSwitchLocaleUrl(pathname, 'es'), Astro.site).href;
 
 const schemaData = {
   "@context": "https://schema.org",
@@ -28,8 +49,10 @@ const schemaData = {
   "name": "Pascual Ruiz Benítez",
   "alternateName": "pjrbenitez",
   "url": "https://pjrbenitez.github.io/pasruiben/",
-  "jobTitle": "Senior Backend & Cloud-Native Architect | Quantitative Developer",
-  "description": description,
+  "jobTitle": locale === 'en'
+    ? "Senior Backend & Cloud-Native Architect | Quantitative Developer"
+    : "Senior Backend & Cloud-Native Architect | Desarrollador Cuantitativo",
+  "description": resolvedDesc,
   "sameAs": [
     "https://github.com/pjrbenitez",
     "https://linkedin.com"
@@ -53,7 +76,7 @@ const schemaData = {
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -63,10 +86,13 @@ const schemaData = {
     <meta name="color-scheme" content="dark" />
 
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="es" href={esHref} />
+    <link rel="alternate" hreflang="x-default" href={enHref} />
 
     <title>{siteTitle}</title>
     <meta name="title" content={siteTitle} />
-    <meta name="description" content={description} />
+    <meta name="description" content={resolvedDesc} />
     <meta name="author" content="Pascual Ruiz Benítez" />
     <meta
       name="keywords"
@@ -77,16 +103,16 @@ const schemaData = {
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={siteTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={resolvedDesc} />
     <meta property="og:image" content={fullImageUrl} />
     <meta property="og:site_name" content="Pascual Ruiz Benítez Portfolio" />
-    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale" content={locale === 'en' ? 'en_US' : 'es_ES'} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={siteTitle} />
-    <meta property="twitter:description" content={description} />
+    <meta property="twitter:description" content={resolvedDesc} />
     <meta property="twitter:image" content={fullImageUrl} />
 
     <!-- Google Fonts Preconnect & Async Swap -->
@@ -103,12 +129,12 @@ const schemaData = {
     <ClientRouter />
   </head>
   <body>
-    <a href="#main-content" class="skip-to-content no-print">Saltar al contenido principal</a>
-    <Header />
+    <a href="#main-content" class="skip-to-content no-print">{t.header.skipToContent}</a>
+    <Header locale={locale} />
     <main id="main-content" class="site-main">
       <slot />
     </main>
-    <Footer />
+    <Footer locale={locale} />
   </body>
 </html>
 
@@ -119,4 +145,4 @@ const schemaData = {
     flex-direction: column;
     min-height: calc(100vh - 72px - 280px);
   }
-</style>\n
+</style>

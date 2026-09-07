@@ -1,9 +1,15 @@
 ---
+import { getLocaleFromUrl } from '../../i18n/utils';
+import { CV_TRANSLATIONS } from '../../i18n/cv';
+import type { Locale } from '../../i18n/languages';
+
 interface Props {
-  lastUpdated?: string;
+  locale?: Locale;
 }
 
-const { lastUpdated = "2026" } = Astro.props;
+const pathname = Astro.url.pathname;
+const { locale = getLocaleFromUrl(pathname) } = Astro.props;
+const t = CV_TRANSLATIONS[locale].meta;
 ---
 
 <header class="cv-header glass-panel">
@@ -11,26 +17,50 @@ const { lastUpdated = "2026" } = Astro.props;
     <div class="cv-profile">
       <div class="status-indicator">
         <span class="status-dot"></span>
-        <span class="status-text mono">DISPONIBLE PARA PROYECTOS Y ARQUITECTURA</span>
+        <span class="status-text mono">{t.status}</span>
       </div>
-      <h1 class="cv-name">Pascual Ruiz Benítez</h1>
-      <p class="cv-title">Senior Backend & Cloud-Native Architect | Quant & Algorithmic Developer</p>
+      <h1 class="cv-name">{t.name}</h1>
+      <p class="cv-title">{t.title}</p>
       <div class="cv-meta mono">
-        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> España (Remoto / Híbrido)</span>
-        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Actualizado: {lastUpdated}</span>
-        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg> contacto@pasruiben.dev</span>
-        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> pjrbenitez.github.io/pasruiben</span>
+        <span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          {t.location}
+        </span>
+        <span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          {t.updated}
+        </span>
+        <span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+          pascualjavier.ruiz@policia.es
+        </span>
+        <span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+          pjrbenitez.github.io/pasruiben
+        </span>
       </div>
     </div>
 
     <div class="cv-actions no-print">
-      <button id="print-cv-btn" class="btn btn-primary" title="Imprimir o exportar como documento PDF">
+      <button id="print-cv-btn" class="btn btn-primary" title={t.printBtn}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="6 9 6 2 18 2 18 9"></polyline>
           <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
           <rect x="6" y="14" width="12" height="8"></rect>
         </svg>
-        <span>Imprimir / Exportar PDF</span>
+        <span>{t.printBtn}</span>
       </button>
       <a href="https://github.com/pjrbenitez" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -50,12 +80,8 @@ const { lastUpdated = "2026" } = Astro.props;
   </div>
 
   <div class="cv-summary">
-    <p>
-      Ingeniero de Software y Arquitecto Cloud-Native especializado en el diseño de <strong>sistemas distribuidos tolerantes a fallos</strong>, infraestructuras <strong>Kubernetes bajo GitOps (ArgoCD)</strong> y pipelines de streaming de alta concurrencia con <strong>Java 21, Spring Cloud y Apache Kafka</strong>.
-    </p>
-    <p>
-      Complemento el rigor ingenieril con el modelado algorítmico en <strong>trading cuantitativo (MQL5/Python)</strong>, la programación de motores y simulación en <strong>Godot 4 (C#/WASM)</strong>, y la sensibilidad interpretativa y de producción acústica del <strong>piano clásico de alta fidelidad</strong>.
-    </p>
+    <p set:html={t.summaryP1} />
+    <p set:html={t.summaryP2} />
   </div>
 </header>
 
@@ -158,7 +184,7 @@ const { lastUpdated = "2026" } = Astro.props;
     line-height: 1.7;
   }
 
-  .cv-summary strong {
+  .cv-summary :global(strong) {
     color: var(--color-text-primary);
   }
 
@@ -166,4 +192,4 @@ const { lastUpdated = "2026" } = Astro.props;
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
   }
-</style>\n
+</style>

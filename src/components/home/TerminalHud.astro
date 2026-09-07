@@ -1,5 +1,15 @@
 ---
-// Terminal HUD interactivo que simula telemetría del sistema y arquitectura
+import { getLocaleFromUrl } from '../../i18n/utils';
+import { HOME_TRANSLATIONS } from '../../i18n/home';
+import type { Locale } from '../../i18n/languages';
+
+interface Props {
+  locale?: Locale;
+}
+
+const pathname = Astro.url.pathname;
+const { locale = getLocaleFromUrl(pathname) } = Astro.props;
+const t = HOME_TRANSLATIONS[locale].terminal;
 ---
 
 <div class="terminal-hud glass-panel">
@@ -15,49 +25,27 @@
     </div>
     <div class="terminal-status">
       <span class="status-live-pulse"></span>
-      <span>SYNCED</span>
+      <span>{t.status}</span>
     </div>
   </div>
 
   <!-- Terminal Content -->
   <div class="terminal-body font-mono">
     <div class="terminal-line">
-      <span class="cmd-prompt">&gt;</span> <span class="cmd-text">sysctl --inspect-profile --verbose</span>
+      <span class="cmd-prompt">&gt;</span> <span class="cmd-text">{t.command}</span>
     </div>
 
     <div class="telemetry-grid">
-      <div class="telemetry-item">
-        <span class="t-label">PROFILE:</span>
-        <span class="t-val t-val-bright">Pascual Ruiz Benítez</span>
-      </div>
-      <div class="telemetry-item">
-        <span class="t-label">ROLE:</span>
-        <span class="t-val t-cyan">Tech Lead & Cloud Architect</span>
-      </div>
-      <div class="telemetry-item">
-        <span class="t-label">BACKEND:</span>
-        <span class="t-val">Java 21 &bull; Spring Cloud &bull; Kafka &bull; K8s</span>
-      </div>
-      <div class="telemetry-item">
-        <span class="t-label">DEVOPS:</span>
-        <span class="t-val">GitOps &bull; ArgoCD &bull; Zero-Downtime</span>
-      </div>
-      <div class="telemetry-item">
-        <span class="t-label">QUANT:</span>
-        <span class="t-val t-green">MQL4/5 &bull; Python &bull; Backtesting Audit</span>
-      </div>
-      <div class="telemetry-item">
-        <span class="t-label">GAMEDEV:</span>
-        <span class="t-val t-purple">Godot 4 &bull; Shaders &bull; WebAssembly</span>
-      </div>
-      <div class="telemetry-item">
-        <span class="t-label">CREATIVE:</span>
-        <span class="t-val t-amber">Classical Piano &bull; Lossless &bull; Video Post</span>
-      </div>
+      {t.items.map((item) => (
+        <div class="telemetry-item">
+          <span class="t-label">{item.label}</span>
+          <span class={`t-val ${item.colorClass || ''}`}>{item.val}</span>
+        </div>
+      ))}
     </div>
 
     <div class="terminal-line terminal-footer-line">
-      <span class="cmd-prompt">&gt;</span> <span class="cmd-cursor">READY_FOR_ENGAGEMENT_</span>
+      <span class="cmd-prompt">&gt;</span> <span class="cmd-cursor">{t.cursor}</span>
     </div>
   </div>
 </div>
@@ -134,8 +122,8 @@
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.3); }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
   }
 
   .terminal-body {

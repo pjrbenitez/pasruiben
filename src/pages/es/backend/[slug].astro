@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import BackendDetailView from '../../../views/BackendDetailView.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('backend');
+  const esProjects = projects.filter((p) => p.slug.startsWith('es/'));
+  return esProjects.map((project) => ({
+    params: { slug: project.slug.replace(/^es\//, '') },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<BackendDetailView project={project} locale="es" />

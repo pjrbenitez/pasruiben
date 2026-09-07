@@ -1,12 +1,15 @@
 ---
-const filterOptions = [
-  { id: 'all', label: 'Toda la Trayectoria' },
-  { id: 'backend', label: 'Backend & Cloud' },
-  { id: 'kubernetes', label: 'Kubernetes & GitOps' },
-  { id: 'trading', label: 'Trading Cuantitativo' },
-  { id: 'gamedev', label: 'Godot & Simulación' },
-  { id: 'architecture', label: 'Arquitectura & Liderazgo' },
-];
+import { getLocaleFromUrl } from '../../i18n/utils';
+import { CV_TRANSLATIONS } from '../../i18n/cv';
+import type { Locale } from '../../i18n/languages';
+
+interface Props {
+  locale?: Locale;
+}
+
+const pathname = Astro.url.pathname;
+const { locale = getLocaleFromUrl(pathname) } = Astro.props;
+const t = CV_TRANSLATIONS[locale].filter;
 ---
 
 <div class="cv-filter-bar glass-panel no-print">
@@ -14,11 +17,11 @@ const filterOptions = [
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
     </svg>
-    <span class="mono">FILTRAR EXPERIENCIA:</span>
+    <span class="mono">{t.label}</span>
   </div>
 
   <div class="filter-pills" id="cv-filter-buttons">
-    {filterOptions.map((opt) => (
+    {t.options.map((opt) => (
       <button
         class={opt.id === 'all' ? 'filter-btn active' : 'filter-btn'}
         data-filter={opt.id}
@@ -119,4 +122,4 @@ const filterOptions = [
     border-color: var(--color-accent-blue);
     box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
   }
-</style>\n
+</style>

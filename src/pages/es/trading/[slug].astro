@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import TradingDetailView from '../../../views/TradingDetailView.astro';
+
+export async function getStaticPaths() {
+  const strategies = await getCollection('trading');
+  const esStrategies = strategies.filter((s) => s.slug.startsWith('es/'));
+  return esStrategies.map((strategy) => ({
+    params: { slug: strategy.slug.replace(/^es\//, '') },
+    props: { strategy },
+  }));
+}
+
+const { strategy } = Astro.props;
+---
+
+<TradingDetailView strategy={strategy} locale="es" />

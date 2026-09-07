@@ -1,5 +1,15 @@
 ---
-import { getUrl } from '../../utils/paths';
+import { getLocaleFromUrl, getLocalizedPath } from '../../i18n/utils';
+import { HOME_TRANSLATIONS } from '../../i18n/home';
+import type { Locale } from '../../i18n/languages';
+
+interface Props {
+  locale?: Locale;
+}
+
+const pathname = Astro.url.pathname;
+const { locale = getLocaleFromUrl(pathname) } = Astro.props;
+const t = HOME_TRANSLATIONS[locale].cta;
 ---
 
 <section class="cta-section">
@@ -7,13 +17,9 @@ import { getUrl } from '../../utils/paths';
     <div class="cta-banner glass-panel">
       <div class="cta-glow"></div>
       <div class="cta-content">
-        <span class="badge badge-backend">Contacto & Colaboración</span>
-        <h2 class="cta-title">
-          ¿Tienes un proyecto de alto impacto técnico o arquitectura en mente?
-        </h2>
-        <p class="cta-desc">
-          Siempre abierto a discutir desafíos de ingeniería distribuida, modelos cuantitativos o iniciativas de software innovadoras.
-        </p>
+        <span class="badge badge-backend">{t.badge}</span>
+        <h2 class="cta-title">{t.title}</h2>
+        <p class="cta-desc">{t.desc}</p>
 
         <div class="cta-actions">
           <a href="mailto:pascualjavier.ruiz@policia.es" class="btn btn-primary">
@@ -21,10 +27,10 @@ import { getUrl } from '../../utils/paths';
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
               <polyline points="22,6 12,13 2,6"></polyline>
             </svg>
-            Contactar por Email
+            {t.emailBtn}
           </a>
-          <a href={getUrl('/cv')} class="btn btn-outline">
-            Consultar Curriculum Vitae
+          <a href={getLocalizedPath('/cv', locale)} class="btn btn-outline">
+            {t.cvBtn}
           </a>
         </div>
       </div>

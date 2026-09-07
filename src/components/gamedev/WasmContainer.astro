@@ -1,12 +1,33 @@
 ---
+import { getLocaleFromUrl } from '../../i18n/utils';
+import type { Locale } from '../../i18n/languages';
+
 interface Props {
   title?: string;
   gameSlug?: string;
+  locale?: Locale;
 }
 
+const pathname = Astro.url.pathname;
 const {
-  title = "Chronicles of Aethelgard",
+  title = 'Chronicles of Aethelgard',
+  locale = getLocaleFromUrl(pathname),
 } = Astro.props;
+
+const isEn = locale === 'en';
+const texts = isEn
+  ? {
+      heading: 'WebAssembly Container Ready',
+      desc: 'Optimized viewport configured for Godot 4 web exports. Supports single/multithreaded WebAssembly execution, WebGL 2.0 rendering, and low-latency WebAudio.',
+      controls: '<span class="key-badge">W A S D</span> Movement &bull; <span class="key-badge">J</span> Attack &bull; <span class="key-badge">K</span> Dash &bull; <span class="key-badge">SPACE</span> Jump',
+      footer: 'For fullscreen mode or native desktop builds (Windows / Linux), check the project repository links.',
+    }
+  : {
+      heading: 'Embebido WebAssembly Listo',
+      desc: 'Contenedor optimizado para cargar exportaciones web de Godot 4. Soporta ejecución en hilo de navegador con memoria compartida (SharedArrayBuffer) y audio estéreo WebAudio.',
+      controls: '<span class="key-badge">W A S D</span> Movimiento &bull; <span class="key-badge">J</span> Ataque &bull; <span class="key-badge">K</span> Dash &bull; <span class="key-badge">ESPACIO</span> Salto',
+      footer: 'Para jugar a pantalla completa o acceder a builds de escritorio nativos (Windows/Linux), consulta los enlaces del repositorio.',
+    };
 ---
 
 <div class="wasm-viewport glass-panel">
@@ -28,19 +49,15 @@ const {
             <polygon points="5 3 19 12 5 21 5 3"></polygon>
           </svg>
         </div>
-        <h4 class="screen-heading">Embebido WebAssembly Listo</h4>
-        <p class="screen-desc">
-          Contenedor optimizado para cargar exportaciones web de Godot 4. Soporta ejecución en hilo de navegador con memoria compartida (SharedArrayBuffer) y audio estéreo WebAudio.
-        </p>
-        <div class="controls-hint">
-          <span class="key-badge">W A S D</span> Movimiento &bull; <span class="key-badge">J</span> Ataque &bull; <span class="key-badge">K</span> Dash &bull; <span class="key-badge">ESPACIO</span> Salto
-        </div>
+        <h4 class="screen-heading">{texts.heading}</h4>
+        <p class="screen-desc">{texts.desc}</p>
+        <div class="controls-hint" set:html={texts.controls} />
       </div>
     </div>
   </div>
 
   <div class="viewport-footer">
-    <span>Para jugar a pantalla completa o acceder a builds de escritorio nativos (Windows/Linux), consulta los enlaces del repositorio.</span>
+    <span>{texts.footer}</span>
   </div>
 </div>
 
@@ -65,43 +82,45 @@ const {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: var(--text-xs);
     font-family: var(--font-mono);
-    color: var(--color-text-secondary);
+    font-size: var(--text-xs);
+    color: var(--color-text-primary);
   }
 
   .game-status-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #c084fc;
-    box-shadow: 0 0 6px #c084fc;
+    background: var(--accent-gamedev);
+    box-shadow: 0 0 8px var(--accent-gamedev);
   }
 
   .wasm-pill {
-    font-size: 10px;
     font-family: var(--font-mono);
+    font-size: 10px;
     color: var(--accent-gamedev);
+    background: rgba(168, 85, 247, 0.1);
+    padding: 2px 8px;
+    border-radius: var(--radius-xs);
+    border: 1px solid rgba(168, 85, 247, 0.2);
   }
 
   .canvas-container {
     width: 100%;
     aspect-ratio: 16 / 9;
-    max-height: 440px;
-    background: #03060c;
+    background: #050811;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
   }
 
   .placeholder-screen {
-    padding: var(--space-8);
-    text-align: center;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    padding: var(--space-6);
   }
 
   .screen-content {
@@ -113,21 +132,20 @@ const {
   }
 
   .screen-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 64px;
-    height: 64px;
-    border-radius: var(--radius-full);
-    background: rgba(192, 132, 252, 0.1);
-    border: 1px solid rgba(192, 132, 252, 0.3);
-    box-shadow: 0 0 20px rgba(192, 132, 252, 0.2);
-    margin-bottom: var(--space-2);
+    box-shadow: 0 0 24px rgba(168, 85, 247, 0.2);
   }
 
   .screen-heading {
     font-size: var(--text-lg);
-    color: #ffffff;
+    color: var(--color-text-primary);
   }
 
   .screen-desc {
@@ -137,25 +155,30 @@ const {
   }
 
   .controls-hint {
-    margin-top: var(--space-2);
-    font-size: var(--text-xs);
     font-family: var(--font-mono);
+    font-size: 11px;
     color: var(--color-text-secondary);
+    background: rgba(14, 20, 34, 0.8);
+    border: 1px solid var(--color-border-subtle);
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-2);
   }
 
-  .key-badge {
-    background: var(--color-bg-elevated);
+  .controls-hint :global(.key-badge) {
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid var(--color-border-default);
-    padding: 2px 6px;
+    padding: 1px 5px;
     border-radius: var(--radius-xs);
-    color: var(--accent-gamedev);
+    color: #ffffff;
+    font-weight: 700;
   }
 
   .viewport-footer {
-    padding: 10px 16px;
+    padding: 8px 16px;
     background: rgba(14, 20, 34, 0.8);
     border-top: 1px solid var(--color-border-subtle);
-    font-size: var(--text-xs);
+    font-size: 11px;
     color: var(--color-text-muted);
     text-align: center;
   }

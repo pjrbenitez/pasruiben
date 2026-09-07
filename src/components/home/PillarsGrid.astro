@@ -1,94 +1,27 @@
 ---
-import { getUrl } from '../../utils/paths';
+import { getLocaleFromUrl, getLocalizedPath } from '../../i18n/utils';
+import { HOME_TRANSLATIONS } from '../../i18n/home';
+import type { Locale } from '../../i18n/languages';
 
-const pillars = [
-  {
-    id: 'backend',
-    number: '01',
-    title: 'Backend & Cloud-Native',
-    badge: 'Arquitectura Crítica',
-    badgeClass: 'badge-backend',
-    gradientClass: 'gradient-text-backend',
-    accentVar: 'var(--accent-backend)',
-    desc: 'Arquitecturas de microservicios distribuidos con Java y Spring Cloud, mensajería asíncrona de alto throughput con Apache Kafka y orquestación con Kubernetes y ArgoCD GitOps.',
-    features: [
-      'Microservicios con Spring Boot 3 & Spring Cloud',
-      'Event-Driven Architecture con Apache Kafka',
-      'GitOps declarativo automatizado con ArgoCD',
-      'Tolerancia a fallos, Circuit Breakers & Observabilidad',
-    ],
-    tech: ['Java 21', 'Spring Cloud', 'Kubernetes', 'ArgoCD', 'Kafka', 'PostgreSQL'],
-    href: '/backend',
-  },
-  {
-    id: 'trading',
-    number: '02',
-    title: 'Algoritmia & Trading Cuantitativo',
-    badge: 'Finanzas Cuantitativas',
-    badgeClass: 'badge-trading',
-    gradientClass: 'gradient-text-trading',
-    accentVar: 'var(--accent-trading)',
-    desc: 'Desarrollo de Expert Advisors automatizados para MetaTrader (MQL4/MQL5) y pipelines analíticos en Python. Enfoque riguroso en gestión de riesgo, Monte Carlo y backtesting auditado.',
-    features: [
-      'Expert Advisors (EAs) robustos en MQL4 y MQL5',
-      'Análisis cuantitativo y backtesting con Python',
-      'Gestión asimétrica de riesgo y control de drawdown',
-      'Métricas auditadas: Profit Factor, Sharpe Ratio, Sortino',
-    ],
-    tech: ['MQL5', 'Python', 'Pandas', 'Backtrader', 'MetaTrader', 'Risk Control'],
-    href: '/trading',
-  },
-  {
-    id: 'gamedev',
-    number: '03',
-    title: 'Desarrollo en Godot & Simulación',
-    badge: 'Simulación & Juegos',
-    badgeClass: 'badge-gamedev',
-    gradientClass: 'gradient-text-gamedev',
-    accentVar: 'var(--accent-gamedev)',
-    desc: 'Creación de prototipos interactivos y simulaciones en Godot Engine 4.x. Implementación de máquinas de estados jerárquicas, optimización de físicas y compilación a WebAssembly.',
-    features: [
-      'Patrones de arquitectura de juego (State Machines, ECS)',
-      'Optimización de rendering y shaders personalizados',
-      'Exportación multiplataforma y navegador (Wasm)',
-      'Diseño modular de mecánicas de juego en GDScript/C#',
-    ],
-    tech: ['Godot 4', 'GDScript', 'C#', 'GLSL Shaders', 'WebAssembly'],
-    href: '/gamedev',
-  },
-  {
-    id: 'multimedia',
-    number: '04',
-    title: 'Multimedia & Piano Clásico',
-    badge: 'Rigor Acústico & Visual',
-    badgeClass: 'badge-media',
-    gradientClass: 'gradient-text-media',
-    accentVar: 'var(--accent-media)',
-    desc: 'Interpretaciones de piano clásico de alta dificultad técnica (repertorio barroco, clásico y romántico) combinadas con edición de vídeo profesional, sincronización multicanal y corrección de color.',
-    features: [
-      'Interpretación de obras clásicas de alta exigencia',
-      'Grabación y masterización de audio acústico en alta fidelidad',
-      'Postproducción y gradación de color profesional',
-      'Reproductor web personalizado libre de compresión destructiva',
-    ],
-    tech: ['Piano Clásico', 'Audio Lossless', 'DaVinci Resolve', 'Color Grading'],
-    href: '/multimedia',
-  },
-];
+interface Props {
+  locale?: Locale;
+}
+
+const pathname = Astro.url.pathname;
+const { locale = getLocaleFromUrl(pathname) } = Astro.props;
+const t = HOME_TRANSLATIONS[locale].pillars;
 ---
 
 <section class="pillars-section" id="especializaciones">
   <div class="container">
     <div class="section-intro">
-      <div class="badge badge-backend">Dominios de Especialización</div>
-      <h2 class="section-title">Los Cuatro Pilares Técnicos</h2>
-      <p class="section-subtitle">
-        Una combinación única entre solvencia técnica en infraestructuras de misión crítica, rigor matemático en finanzas cuantitativas y sensibilidad artística y creativa.
-      </p>
+      <div class="badge badge-backend">{t.introBadge}</div>
+      <h2 class="section-title">{t.introTitle}</h2>
+      <p class="section-subtitle">{t.introSubtitle}</p>
     </div>
 
     <div class="pillars-container">
-      {pillars.map((pillar) => (
+      {t.items.map((pillar) => (
         <article class="pillar-card glass-panel" style={`--card-accent: ${pillar.accentVar};`}>
           <div class="pillar-card-header">
             <div class="pillar-number">{pillar.number}</div>
@@ -96,7 +29,7 @@ const pillars = [
           </div>
 
           <h3 class="pillar-heading">
-            <a href={getUrl(pillar.href)} class={pillar.gradientClass}>
+            <a href={getLocalizedPath(pillar.href, locale)} class={pillar.gradientClass}>
               {pillar.title}
             </a>
           </h3>
@@ -104,7 +37,7 @@ const pillars = [
           <p class="pillar-text">{pillar.desc}</p>
 
           <div class="pillar-features">
-            <h4 class="features-title">Puntos Destacados</h4>
+            <h4 class="features-title">{t.highlightsTitle}</h4>
             <ul class="features-list">
               {pillar.features.map((feat) => (
                 <li>
@@ -119,13 +52,13 @@ const pillars = [
 
           <div class="pillar-footer">
             <div class="tech-pills">
-              {pillar.tech.map((t) => (
-                <span class="tech-pill">{t}</span>
+              {pillar.tech.map((tech) => (
+                <span class="tech-pill">{tech}</span>
               ))}
             </div>
 
-            <a href={getUrl(pillar.href)} class="pillar-action-btn">
-              <span>Explorar área</span>
+            <a href={getLocalizedPath(pillar.href, locale)} class="pillar-action-btn">
+              <span>{t.actionBtn}</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>

@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import MultimediaDetailView from '../../../views/MultimediaDetailView.astro';
+
+export async function getStaticPaths() {
+  const works = await getCollection('multimedia');
+  const esWorks = works.filter((w) => w.slug.startsWith('es/'));
+  return esWorks.map((work) => ({
+    params: { slug: work.slug.replace(/^es\//, '') },
+    props: { work },
+  }));
+}
+
+const { work } = Astro.props;
+---
+
+<MultimediaDetailView work={work} locale="es" />

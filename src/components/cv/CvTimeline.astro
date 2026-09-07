@@ -1,79 +1,25 @@
 ---
-interface ExperienceItem {
-  period: string;
-  role: string;
-  company: string;
-  location: string;
-  tags: string[];
-  achievements: string[];
-  stack: string[];
+import { getLocaleFromUrl } from '../../i18n/utils';
+import { CV_TRANSLATIONS } from '../../i18n/cv';
+import type { Locale } from '../../i18n/languages';
+
+interface Props {
+  locale?: Locale;
 }
 
-const experiences: ExperienceItem[] = [
-  {
-    period: "2023 - Presente",
-    role: "Lead Cloud-Native Architect & Senior Backend Engineer",
-    company: "Sistemas Distribuidos & Soluciones Enterprise",
-    location: "Remoto / España",
-    tags: ["backend", "kubernetes", "architecture"],
-    achievements: [
-      "Diseño e implementación de arquitectura distribuida event-driven basada en Java 21, Spring Boot 3 y Apache Kafka, procesando >50.000 ops/seg con p99 < 12ms.",
-      "Liderazgo en la migración a Kubernetes (EKS/k3s) gestionado 100% mediante GitOps con ArgoCD, eliminando discrepancias de despliegue y logrando RTO < 5 minutos.",
-      "Reducción del 45% en tiempos de respuesta p95 mediante caché multinivel L1 (Caffeine en memoria) + L2 (Redis Clustered) con invalidación asíncrona por Kafka.",
-      "Implementación de observabilidad distribuida integral con OpenTelemetry, Jaeger tracing y dashboards Prometheus/Grafana con alertas SLA proactivas."
-    ],
-    stack: ["Java 21", "Spring Cloud", "Kafka", "Kubernetes", "ArgoCD", "Docker", "PostgreSQL", "Redis", "OpenTelemetry"]
-  },
-  {
-    period: "2021 - 2023",
-    role: "Senior Backend Developer & DevOps Specialist",
-    company: "Infraestructura & Microservicios Cloud",
-    location: "Remoto",
-    tags: ["backend", "kubernetes"],
-    achievements: [
-      "Desacoplamiento de monolito legado a 8 microservicios independientes bajo DDD y arquitectura hexagonal, aumentando la cadencia de release semanal en un 300%.",
-      "Orquestación de pipelines CI/CD automatizados con GitHub Actions y análisis estático SonarQube, alcanzando 85%+ de cobertura de tests unitarios y de integración.",
-      "Configuración de Helm charts modulares con Sealed Secrets y políticas NetworkPolicies para cumplimiento estricto de seguridad Zero-Trust en clúster."
-    ],
-    stack: ["Java 17", "Spring Boot", "Docker", "Helm", "GitHub Actions", "RabbitMQ", "MySQL", "Prometheus"]
-  },
-  {
-    period: "2020 - Presente",
-    role: "Quantitative Systems & Algorithmic Strategy Developer",
-    company: "Iniciativa Independiente / Portfolio Cuantitativo",
-    location: "España",
-    tags: ["trading", "architecture"],
-    achievements: [
-      "Desarrollo de motores de trading algorítmico en MQL4 y MQL5 orientados a eventos, operando en cuentas reales con drawdown histórico limitado bajo el 8.5%.",
-      "Pipeline de investigación cuantitativa en Python utilizando vectorbt y pandas para backtesting masivo multiactivo (>10 años de datos tick con modelado de slippage/spread).",
-      "Simulaciones de Monte Carlo con remuestreo de bloques (10.000 iteraciones) para cuantificar riesgo de ruina y robustez de parámetros, descartando sobreajuste (overfitting)."
-    ],
-    stack: ["MQL5", "MQL4", "Python 3.12", "vectorbt", "NumPy", "Pandas", "Monte Carlo", "MetaTrader 5"]
-  },
-  {
-    period: "2022 - Presente",
-    role: "Game Systems & Simulation Engineer",
-    company: "Desarrollo Indie & Simulación Interactiva",
-    location: "España",
-    tags: ["gamedev"],
-    achievements: [
-      "Arquitectura de máquinas de estado jerárquicas (HSM) desacopladas en Godot 4 / C# para entidades con comportamientos complejos, alcanzando 60 FPS estables.",
-      "Optimización de pipeline de compilación cruzada hacia WebAssembly (WASM) y WebGL, permitiendo ejecución fluida directa en navegador sin dependencias nativas.",
-      "Diseño de algoritmos de generación procedural determinista y sistemas de física por capas con mínimo consumo de memoria y cero allocation per frame."
-    ],
-    stack: ["Godot 4", "C#", "GDScript", "WebAssembly", "Linear Algebra", "State Machines"]
-  }
-];
+const pathname = Astro.url.pathname;
+const { locale = getLocaleFromUrl(pathname) } = Astro.props;
+const t = CV_TRANSLATIONS[locale].timeline;
 ---
 
 <section class="cv-section">
   <div class="section-title-wrap">
-    <div class="section-badge mono">01 / TRAYECTORIA</div>
-    <h2 class="section-heading">Experiencia Profesional</h2>
+    <div class="section-badge mono">{t.badge}</div>
+    <h2 class="section-heading">{t.heading}</h2>
   </div>
 
   <div class="timeline-container">
-    {experiences.map((exp) => (
+    {t.items.map((exp) => (
       <article
         class="timeline-item glass-panel"
         data-tags={exp.tags.join(',')}
@@ -90,8 +36,8 @@ const experiences: ExperienceItem[] = [
               <p class="company-name">{exp.company}</p>
             </div>
             <div class="tags-group no-print">
-              {exp.tags.map((t) => (
-                <span class="tag-badge mono">{t}</span>
+              {exp.tags.map((tag) => (
+                <span class="tag-badge mono">{tag}</span>
               ))}
             </div>
           </div>
@@ -103,7 +49,7 @@ const experiences: ExperienceItem[] = [
           </ul>
 
           <div class="tech-stack-row">
-            <span class="stack-label mono">Stack:</span>
+            <span class="stack-label mono">{t.stackLabel}</span>
             <div class="stack-pills">
               {exp.stack.map((tech) => (
                 <span class="tech-pill mono">{tech}</span>
@@ -272,4 +218,4 @@ const experiences: ExperienceItem[] = [
     border-radius: var(--radius-sm);
     border: 1px solid var(--color-border-subtle);
   }
-</style>\n
+</style>

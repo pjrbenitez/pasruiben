@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import GameDevDetailView from '../../../views/GameDevDetailView.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('gamedev');
+  const esProjects = projects.filter((p) => p.slug.startsWith('es/'));
+  return esProjects.map((project) => ({
+    params: { slug: project.slug.replace(/^es\//, '') },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<GameDevDetailView project={project} locale="es" />

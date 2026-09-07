@@ -1,0 +1,256 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PerformanceCard from '../components/multimedia/PerformanceCard.astro';
+import AudioPlayer from '../components/multimedia/AudioPlayer.astro';
+import { getCollection } from 'astro:content';
+import { HUBS_TRANSLATIONS } from '../i18n/hubs';
+import type { Locale } from '../i18n/languages';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = HUBS_TRANSLATIONS[locale].multimedia;
+
+// Fetch collection filtered by locale
+const allWorks = await getCollection('multimedia');
+const works = allWorks
+  .filter((w) => w.slug.startsWith(`${locale}/`))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const featuredWork = works.find((w) => w.data.featured) || works[0];
+
+const pageTitle = locale === 'en'
+  ? 'Classical Piano & Acoustic Production | Pascual Ruiz Benítez'
+  : 'Multimedia, Piano Clásico & Producción Acústica | Pascual Ruiz Benítez';
+
+const pageDesc = locale === 'en'
+  ? 'High-difficulty classical piano masterworks, acoustic microphony, 24-bit/96kHz lossless mastering, and cinematic color grading.'
+  : 'Interpretaciones de piano clásico de alta dificultad, microfonía acústica, mastering lossless 24-bit/96kHz y gradación de color profesional.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} locale={locale}>
+  <div class="multimedia-page">
+    <div class="container">
+      <!-- Section Header -->
+      <div class="multimedia-hero">
+        <div class="badge badge-media">{t.heroBadge}</div>
+        <h1 class="multimedia-title">
+          {t.title}<span class="gradient-text-media">{t.titleHighlight}</span>
+        </h1>
+        <p class="multimedia-intro">{t.intro}</p>
+
+        <!-- Quick Specs Bar -->
+        <div class="quick-specs-bar glass-panel">
+          {t.quickSpecs.map((item) => (
+            <div class="qs-item">
+              <span class="qs-label">{item.label}</span>
+              <span class="qs-val">{item.val}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Reproductor de Audio Interactivo Destacado -->
+      {featuredWork && (
+        <AudioPlayer
+          title={featuredWork.data.title}
+          composer={featuredWork.data.composer}
+          duration={featuredWork.data.duration}
+          waveform={featuredWork.data.waveformBars}
+          locale={locale}
+        />
+      )}
+
+      <!-- Repertorio e Interpretaciones -->
+      <div class="performances-section">
+        <div class="performances-header">
+          <div>
+            <span class="badge badge-media">{t.performancesBadge}</span>
+            <h2 class="performances-title">{t.performancesTitle}</h2>
+          </div>
+          <p class="performances-subtitle">{t.performancesSubtitle}</p>
+        </div>
+
+        <div class="performances-grid">
+          {works.map((work) => (
+            <PerformanceCard work={work} locale={locale} />
+          ))}
+        </div>
+      </div>
+
+      <!-- Cadena de Equipamiento y Producción -->
+      <div class="gear-section glass-panel">
+        <div class="gear-header">
+          <span class="badge badge-media">{t.gearBadge}</span>
+          <h3>{t.gearTitle}</h3>
+        </div>
+
+        <div class="gear-grid">
+          {t.gearList.map((g) => (
+            <div class="gear-col">
+              <h4 class="gear-cat-title">{g.category}</h4>
+              <ul class="gear-items">
+                {g.items.map((it) => (
+                  <li>
+                    <span class="bullet">&bull;</span>
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .multimedia-page {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-24);
+  }
+
+  .multimedia-hero {
+    max-width: 820px;
+    margin-bottom: var(--space-12);
+  }
+
+  .multimedia-title {
+    font-size: clamp(2.2rem, 4vw, 3.25rem);
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-4);
+    line-height: 1.15;
+  }
+
+  .multimedia-intro {
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    margin-bottom: var(--space-8);
+  }
+
+  .quick-specs-bar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    border: 1px solid var(--color-border-default);
+  }
+
+  @media (min-width: 768px) {
+    .quick-specs-bar {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .qs-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .qs-label {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .qs-val {
+    font-size: var(--text-sm);
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  .performances-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .performances-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .performances-title {
+    font-size: var(--text-2xl);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .performances-subtitle {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .performances-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .gear-section {
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .gear-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .gear-header h3 {
+    font-size: var(--text-xl);
+    margin-top: var(--space-2);
+  }
+
+  .gear-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .gear-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .gear-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .gear-cat-title {
+    font-size: var(--text-sm);
+    color: var(--accent-media);
+    font-family: var(--font-display);
+    font-weight: 700;
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding-bottom: var(--space-2);
+  }
+
+  .gear-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .gear-items li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .bullet {
+    color: var(--accent-media);
+    font-weight: bold;
+  }
+</style>

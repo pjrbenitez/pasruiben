@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CvHeader from '../components/cv/CvHeader.astro';
+import CvFilter from '../components/cv/CvFilter.astro';
+import CvTimeline from '../components/cv/CvTimeline.astro';
+import CvSkillsMatrix from '../components/cv/CvSkillsMatrix.astro';
+import CvEducation from '../components/cv/CvEducation.astro';
+import { CV_TRANSLATIONS } from '../i18n/cv';
+import type { Locale } from '../i18n/languages';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = CV_TRANSLATIONS[locale].meta;
+---
+
+<BaseLayout
+  title={t.pageTitle}
+  description={t.pageDescription}
+  locale={locale}
+>
+  <div class="cv-page container">
+    <CvHeader locale={locale} />
+    <CvFilter locale={locale} />
+    <CvTimeline locale={locale} />
+    <CvSkillsMatrix locale={locale} />
+    <CvEducation locale={locale} />
+  </div>
+</BaseLayout>
+
+<style is:global>
+  @media print {
+    @page {
+      margin: 1.2cm;
+      size: A4 portrait;
+    }
+
+    body {
+      background: #ffffff !important;
+      color: #111827 !important;
+      font-size: 10pt !important;
+      line-height: 1.4 !important;
+    }
+
+    header.site-header,
+    footer.site-footer,
+    .no-print,
+    #cv-filter-buttons,
+    .cv-filter-bar,
+    .terminal-hud,
+    button {
+      display: none !important;
+    }
+
+    .glass-panel,
+    .cv-header,
+    .timeline-item,
+    .skill-category-card,
+    .edu-column {
+      background: transparent !important;
+      border: 1px solid #e5e7eb !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
+    .cv-name {
+      color: #111827 !important;
+      font-size: 20pt !important;
+    }
+
+    .cv-title {
+      color: #1d4ed8 !important;
+      font-size: 11pt !important;
+    }
+
+    .section-heading {
+      color: #111827 !important;
+      font-size: 14pt !important;
+      border-bottom: 2px solid #e5e7eb !important;
+      padding-bottom: 4px !important;
+    }
+
+    .role-title,
+    .company-name,
+    .category-title,
+    .col-title,
+    .edu-degree {
+      color: #111827 !important;
+    }
+
+    .period,
+    .section-badge,
+    .edu-period,
+    .skill-level {
+      color: #1d4ed8 !important;
+    }
+
+    .cv-summary,
+    .achievements-list li,
+    .edu-notes,
+    .skill-note,
+    .lang-desc {
+      color: #374151 !important;
+    }
+
+    .tech-pill {
+      background: #f3f4f6 !important;
+      color: #1f2937 !important;
+      border: 1px solid #e5e7eb !important;
+    }
+
+    .cv-section,
+    .timeline-item,
+    .skill-category-card,
+    .edu-column {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+
+    .cv-header {
+      margin-bottom: 1rem !important;
+      padding: 1rem !important;
+    }
+
+    .cv-section {
+      margin-bottom: 1.5rem !important;
+    }
+
+    .timeline-item {
+      padding: 0.8rem !important;
+      margin-bottom: 0.8rem !important;
+    }
+
+    a {
+      text-decoration: none !important;
+      color: #111827 !important;
+    }
+  }
+
+  .cv-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+</style>

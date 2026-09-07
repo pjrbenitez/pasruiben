@@ -25,7 +25,7 @@ highlights:
   - "Cribado sistemático de cointegración mediante test Augmented Dickey-Fuller (ADF) y test de Johansen."
   - "Cálculo de ratio de cobertura dinámico (*Hedge Ratio*) mediante filtro de Kalman y regresión OLS rodante."
   - "Backtesting vectorizado ultrarrápido con Vectorbt simulando costes de transacción reales y slippage."
-  - "Baja correlación (&lt; 0.15) con el índice S&P 500, funcionando como diversificador absoluto."
+  - "Baja correlación (< 0.15) con el índice S&P 500, funcionando como diversificador absoluto."
 equityCurve: [10000, 10150, 10320, 10280, 10540, 10820, 10750, 11100, 11420, 11680, 11950, 11820, 12240, 12610, 12980, 13240, 13580, 13920, 13810, 14350, 14780, 15120, 15640, 16050, 16420, 16980, 17450, 17920, 18350, 19100]
 ---
 

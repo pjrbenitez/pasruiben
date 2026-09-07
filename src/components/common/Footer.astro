@@ -1,6 +1,15 @@
 ---
-import { getUrl } from '../../utils/paths';
+import { getLocaleFromUrl, getLocalizedPath } from '../../i18n/utils';
+import { UI_TRANSLATIONS } from '../../i18n/ui';
+import type { Locale } from '../../i18n/languages';
 
+interface Props {
+  locale?: Locale;
+}
+
+const pathname = Astro.url.pathname;
+const { locale = getLocaleFromUrl(pathname) } = Astro.props;
+const t = UI_TRANSLATIONS[locale];
 const currentYear = new Date().getFullYear();
 ---
 
@@ -12,33 +21,30 @@ const currentYear = new Date().getFullYear();
           <span class="brand-monogram">PR</span>
           <span class="brand-name">Pascual Ruiz Benítez</span>
         </div>
-        <p class="footer-bio">
-          Tech Lead & Ingeniero de Software especializado en arquitecturas cloud-native,
-          sistemas de trading algorítmico, desarrollo en Godot y producción multimedia.
-        </p>
+        <p class="footer-bio">{t.footer.bio}</p>
         <div class="status-indicator">
           <span class="status-dot"></span>
-          <span class="status-text">Disponible para iniciativas de alto impacto técnico</span>
+          <span class="status-text">{t.footer.status}</span>
         </div>
       </div>
 
       <div class="footer-columns">
         <div class="footer-col">
-          <h4 class="col-title">Pilares Técnicos</h4>
+          <h4 class="col-title">{t.footer.pillarsTitle}</h4>
           <ul class="col-links">
-            <li><a href={getUrl('/backend')}>Backend & Cloud (Spring/K8s)</a></li>
-            <li><a href={getUrl('/trading')}>Algoritmia & Trading (MQL/Python)</a></li>
-            <li><a href={getUrl('/gamedev')}>Videojuegos & Simulación (Godot)</a></li>
-            <li><a href={getUrl('/multimedia')}>Piano Clásico & Vídeo</a></li>
+            <li><a href={getLocalizedPath('/backend', locale)}>{t.nav.backend} (Spring/K8s)</a></li>
+            <li><a href={getLocalizedPath('/trading', locale)}>{t.nav.trading} (MQL/Python)</a></li>
+            <li><a href={getLocalizedPath('/gamedev', locale)}>{t.nav.gamedev} (Godot)</a></li>
+            <li><a href={getLocalizedPath('/multimedia', locale)}>{t.nav.multimedia}</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4 class="col-title">Acceso Directo</h4>
+          <h4 class="col-title">{t.footer.quickAccessTitle}</h4>
           <ul class="col-links">
-            <li><a href={getUrl('/cv')}>Curriculum Vitae Dinámico</a></li>
-            <li><a href="https://github.com/pjrbenitez/pasruiben" target="_blank" rel="noopener noreferrer">Código Fuente en GitHub</a></li>
-            <li><a href="mailto:pascualjavier.ruiz@policia.es">Contacto Directo</a></li>
+            <li><a href={getLocalizedPath('/cv', locale)}>{t.footer.cvLink}</a></li>
+            <li><a href="https://github.com/pjrbenitez/pasruiben" target="_blank" rel="noopener noreferrer">{t.footer.githubLink}</a></li>
+            <li><a href="mailto:pascualjavier.ruiz@policia.es">{t.footer.contactLink}</a></li>
           </ul>
         </div>
       </div>
@@ -46,12 +52,12 @@ const currentYear = new Date().getFullYear();
 
     <div class="footer-bottom">
       <div class="copyright">
-        &copy; {currentYear} Pascual Ruiz Benítez. Todos los derechos reservados.
+        &copy; {currentYear} Pascual Ruiz Benítez. {t.footer.copyright}
       </div>
       <div class="footer-meta">
-        <span class="stack-badge">Construido con Astro 5 + TypeScript</span>
+        <span class="stack-badge">{t.footer.stack}</span>
         <span class="sep">&bull;</span>
-        <span class="stack-badge">Alojado en GitHub Pages</span>
+        <span class="stack-badge">{t.footer.hosted}</span>
       </div>
     </div>
   </div>

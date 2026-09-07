@@ -1,5 +1,7 @@
 ---
-import { getUrl } from '../../utils/paths';
+import { getLocaleFromUrl, getLocalizedPath } from '../../i18n/utils';
+import { UI_TRANSLATIONS } from '../../i18n/ui';
+import type { Locale } from '../../i18n/languages';
 
 interface Props {
   project: {
@@ -15,10 +17,15 @@ interface Props {
       featured: boolean;
     };
   };
+  locale?: Locale;
 }
 
-const { project } = Astro.props;
+const pathname = Astro.url.pathname;
+const { project, locale = getLocaleFromUrl(pathname) } = Astro.props;
 const { slug, data } = project;
+// Normalize slug if prefixed with en/ or es/
+const cleanSlug = slug.replace(/^(en|es)\//, '');
+const t = UI_TRANSLATIONS[locale].common;
 ---
 
 <article class="backend-card glass-panel">
@@ -27,11 +34,11 @@ const { slug, data } = project;
       <span class="badge badge-backend">{data.category}</span>
       <span class="arch-type">{data.architectureType}</span>
     </div>
-    {data.featured && <span class="featured-badge">Featured Case</span>}
+    {data.featured && <span class="featured-badge">{t.featured}</span>}
   </div>
 
   <h3 class="card-title">
-    <a href={getUrl(`/backend/${slug}`)}>
+    <a href={getLocalizedPath(`/backend/${cleanSlug}`, locale)}>
       {data.title}
     </a>
   </h3>
@@ -50,7 +57,7 @@ const { slug, data } = project;
 
   <!-- Highlights -->
   <div class="highlights-container">
-    <h4 class="highlights-title">Aspectos Técnicos</h4>
+    <h4 class="highlights-title">{t.highlights}</h4>
     <ul class="highlights-list">
       {data.highlights.slice(0, 3).map((h) => (
         <li>
@@ -71,8 +78,8 @@ const { slug, data } = project;
       ))}
     </div>
 
-    <a href={getUrl(`/backend/${slug}`)} class="btn-read-case">
-      <span>Ver Caso Completo</span>
+    <a href={getLocalizedPath(`/backend/${cleanSlug}`, locale)} class="btn-read-case">
+      <span>{t.readCase}</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="5" y1="12" x2="19" y2="12"></line>
         <polyline points="12 5 19 12 12 19"></polyline>

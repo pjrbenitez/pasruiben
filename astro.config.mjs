@@ -7,6 +7,13 @@ export default defineConfig({
   output: 'static',
   site: 'https://pjrbenitez.github.io',
   base: '/pasruiben',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'es'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   integrations: [
     react(),
     sitemap({

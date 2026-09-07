@@ -1,43 +1,21 @@
 ---
-interface EducationItem {
-  degree: string;
-  institution: string;
-  period: string;
-  notes: string;
+import { getLocaleFromUrl } from '../../i18n/utils';
+import { CV_TRANSLATIONS } from '../../i18n/cv';
+import type { Locale } from '../../i18n/languages';
+
+interface Props {
+  locale?: Locale;
 }
 
-const education: EducationItem[] = [
-  {
-    degree: "Grado en Ingeniería Informática",
-    institution: "Universidad / Formación Superior en Software",
-    period: "2015 - 2019",
-    notes: "Especialización en Ingeniería del Software, Algoritmia Avanzada y Sistemas Distribuidos."
-  },
-  {
-    degree: "Grado Profesional de Música / Piano Clásico",
-    institution: "Conservatorio Profesional de Música",
-    period: "Formación de Grado Oficial",
-    notes: "Especialidad en interpretación pianística clásica, armonía funcional, análisis acústico y contrapunto."
-  }
-];
-
-const certifications = [
-  { title: "Kubernetes Cloud-Native Architecture", issuer: "Cloud Native Computing Foundation (CNCF)", year: "2023" },
-  { title: "Distributed Systems & Event-Driven Design with Kafka", issuer: "Confluent", year: "2022" },
-  { title: "Spring Certified Professional Developer", issuer: "VMware", year: "2021" },
-  { title: "Quantitative Trading & Risk Analysis Modeling", issuer: "Investigación Independiente", year: "2021" }
-];
-
-const languages = [
-  { lang: "Español", level: "Nativo / Bilingüe", desc: "Lengua materna" },
-  { lang: "Inglés", level: "C1 Profesional / Técnico", desc: "Fluidez completa en entornos multinacionales, documentación y arquitectura técnica" }
-];
+const pathname = Astro.url.pathname;
+const { locale = getLocaleFromUrl(pathname) } = Astro.props;
+const t = CV_TRANSLATIONS[locale].education;
 ---
 
 <section class="cv-section">
   <div class="section-title-wrap">
-    <div class="section-badge mono">03 / FORMACIÓN & IDIOMAS</div>
-    <h2 class="section-heading">Educación, Certificaciones e Idiomas</h2>
+    <div class="section-badge mono">{t.badge}</div>
+    <h2 class="section-heading">{t.heading}</h2>
   </div>
 
   <div class="edu-grid">
@@ -47,11 +25,11 @@ const languages = [
           <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
           <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
         </svg>
-        <span>Educación Formal</span>
+        <span>{t.formalTitle}</span>
       </h3>
 
       <div class="items-list">
-        {education.map((item) => (
+        {t.items.map((item) => (
           <div class="edu-item">
             <div class="edu-header">
               <h4 class="edu-degree">{item.degree}</h4>
@@ -70,11 +48,11 @@ const languages = [
           <circle cx="12" cy="8" r="7"></circle>
           <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
         </svg>
-        <span>Certificaciones & Cursos Especializados</span>
+        <span>{t.certsTitle}</span>
       </h3>
 
       <div class="items-list">
-        {certifications.map((cert) => (
+        {t.certifications.map((cert) => (
           <div class="cert-item">
             <div class="cert-header">
               <span class="cert-title">{cert.title}</span>
@@ -86,9 +64,9 @@ const languages = [
       </div>
 
       <div class="languages-block">
-        <h4 class="lang-heading mono">IDIOMAS</h4>
+        <h4 class="lang-heading mono">{t.langTitle}</h4>
         <div class="lang-list">
-          {languages.map((l) => (
+          {t.languages.map((l) => (
             <div class="lang-row">
               <span class="lang-name"><strong>{l.lang}:</strong> {l.level}</span>
               <span class="lang-desc">{l.desc}</span>
@@ -260,4 +238,4 @@ const languages = [
     color: var(--color-text-muted);
     font-size: 11px;
   }
-</style>\n
+</style>
