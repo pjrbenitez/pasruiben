@@ -1,0 +1,122 @@
+---
+const filterOptions = [
+  { id: 'all', label: 'Toda la Trayectoria' },
+  { id: 'backend', label: 'Backend & Cloud' },
+  { id: 'kubernetes', label: 'Kubernetes & GitOps' },
+  { id: 'trading', label: 'Trading Cuantitativo' },
+  { id: 'gamedev', label: 'Godot & Simulación' },
+  { id: 'architecture', label: 'Arquitectura & Liderazgo' },
+];
+---
+
+<div class="cv-filter-bar glass-panel no-print">
+  <div class="filter-label">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+    </svg>
+    <span class="mono">FILTRAR EXPERIENCIA:</span>
+  </div>
+
+  <div class="filter-pills" id="cv-filter-buttons">
+    {filterOptions.map((opt) => (
+      <button
+        class={opt.id === 'all' ? 'filter-btn active' : 'filter-btn'}
+        data-filter={opt.id}
+      >
+        {opt.label}
+      </button>
+    ))}
+  </div>
+</div>
+
+<script>
+  function initCvFilter() {
+    const filterContainer = document.getElementById('cv-filter-buttons');
+    if (!filterContainer) return;
+
+    const buttons = filterContainer.querySelectorAll('.filter-btn');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-filter') || 'all';
+
+        buttons.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        timelineItems.forEach((el) => {
+          const item = el as HTMLElement;
+          const tags = (item.getAttribute('data-tags') || '').split(',');
+          if (target === 'all' || tags.includes(target)) {
+            item.style.display = 'grid';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  initCvFilter();
+  document.addEventListener('astro:page-load', initCvFilter);
+</script>
+
+<style>
+  .cv-filter-bar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-8);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  @media (min-width: 768px) {
+    .cv-filter-bar {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .filter-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  .filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .filter-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border-subtle);
+    color: var(--color-text-secondary);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .filter-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+  }
+
+  .filter-btn.active {
+    background: var(--color-accent-blue);
+    color: #ffffff;
+    border-color: var(--color-accent-blue);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+  }
+</style>\n

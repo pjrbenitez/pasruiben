@@ -66,7 +66,7 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - SecciÃ³n de muestras audiovisuales y postproducciÃ³n de vÃ­deo (motion graphics, gradaciÃ³n de color).
   - *Criterio de AceptaciÃ³n:* Reproductor de audio fluido con controles limpios, visualizador de onda sutil y carga eficiente de archivos multimedia.
 
-- [ ] **Tarea 8: CV DinÃ¡mico e Interactivo (`/cv`)**
+- [x] **Tarea 8: CV DinÃ¡mico e Interactivo (`/cv`)**
   - Implementar lÃ­nea de tiempo interactiva con historial profesional, educaciÃ³n y certificaciones.
   - Desarrollar filtro interactivo por tecnologÃ­as (ej. filtrar proyectos por "Kubernetes", "Spring", "Python", "Godot").
   - BotÃ³n de exportaciÃ³n o descarga de CV estructurado en formato PDF (versiones en espaÃ±ol e inglÃ©s).
@@ -87,6 +87,7 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - ValidaciÃ³n de enlaces relativos y resoluciÃ³n de base path en el entorno de producciÃ³n.
   - Documentar instrucciones para actualizaciÃ³n continua de contenido y creaciÃ³n de releases.
   - *Criterio de AceptaciÃ³n:* Sitio web 100% operativo en GitHub Pages, con todas las rutas y assets resolviÃ©ndose correctamente.
+
 
 
 

@@ -1,16 +1,143 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CvHeader from '../components/cv/CvHeader.astro';
+import CvFilter from '../components/cv/CvFilter.astro';
+import CvTimeline from '../components/cv/CvTimeline.astro';
+import CvSkillsMatrix from '../components/cv/CvSkillsMatrix.astro';
+import CvEducation from '../components/cv/CvEducation.astro';
 ---
-<BaseLayout title="Curriculum Vitae Dinámico | Pascual Ruiz Benítez">
-  <div class="container" style="padding-top: 4rem; padding-bottom: 4rem;">
-    <span class="badge badge-backend">CV Dinámico</span>
-    <h1 style="margin-top: 1rem; margin-bottom: 1rem;">Curriculum Vitae</h1>
-    <p style="max-width: 650px; color: var(--color-text-secondary); margin-bottom: 2rem;">
-      Trayectoria profesional, roles como Tech Lead, stack tecnológico empresarial y formación técnica continua.
-    </p>
-    <div class="glass-panel" style="padding: 2rem; border-left: 4px solid var(--accent-backend);">
-      <h3 style="margin-bottom: 0.5rem;">Timeline Interactivo & Filtros</h3>
-      <p style="color: var(--color-text-muted);">Esta sección se completará en profundidad durante la Tarea 8 del backlog.</p>
-    </div>
+
+<BaseLayout
+  title="Curriculum Vitae | Pascual Ruiz Benítez (pjrbenitez)"
+  description="Trayectoria técnica, arquitectura de sistemas distribuidos, Kubernetes GitOps, trading cuantitativo, desarrollo en Godot y formación musical."
+>
+  <div class="cv-page container">
+    <CvHeader />
+    <CvFilter />
+    <CvTimeline />
+    <CvSkillsMatrix />
+    <CvEducation />
   </div>
 </BaseLayout>
+
+<style is:global>
+  /* -------------------------------------------------------------
+     Estilos Dedicados para Impresión y Exportación a PDF (@media print)
+     ------------------------------------------------------------- */
+  @media print {
+    @page {
+      margin: 1.2cm;
+      size: A4 portrait;
+    }
+
+    body {
+      background: #ffffff !important;
+      color: #111827 !important;
+      font-size: 10pt !important;
+      line-height: 1.4 !important;
+    }
+
+    /* Ocultar elementos de navegación web e interactivos */
+    header.site-header,
+    footer.site-footer,
+    .no-print,
+    #cv-filter-buttons,
+    .cv-filter-bar,
+    .terminal-hud,
+    button {
+      display: none !important;
+    }
+
+    /* Resetear fondos oscuros a limpio para papel */
+    .glass-panel,
+    .cv-header,
+    .timeline-item,
+    .skill-category-card,
+    .edu-column {
+      background: transparent !important;
+      border: 1px solid #e5e7eb !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
+    .cv-name {
+      color: #111827 !important;
+      font-size: 20pt !important;
+    }
+
+    .cv-title {
+      color: #1d4ed8 !important;
+      font-size: 11pt !important;
+    }
+
+    .section-heading {
+      color: #111827 !important;
+      font-size: 14pt !important;
+      border-bottom: 2px solid #e5e7eb !important;
+      padding-bottom: 4px !important;
+    }
+
+    .role-title,
+    .company-name,
+    .category-title,
+    .col-title,
+    .edu-degree {
+      color: #111827 !important;
+    }
+
+    .period,
+    .section-badge,
+    .edu-period,
+    .skill-level {
+      color: #1d4ed8 !important;
+    }
+
+    .cv-summary,
+    .achievements-list li,
+    .edu-notes,
+    .skill-note,
+    .lang-desc {
+      color: #374151 !important;
+    }
+
+    .tech-pill {
+      background: #f3f4f6 !important;
+      color: #1f2937 !important;
+      border: 1px solid #e5e7eb !important;
+    }
+
+    /* Control de saltos de página limpios */
+    .cv-section,
+    .timeline-item,
+    .skill-category-card,
+    .edu-column {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+
+    .cv-header {
+      margin-bottom: 1rem !important;
+      padding: 1rem !important;
+    }
+
+    .cv-section {
+      margin-bottom: 1.5rem !important;
+    }
+
+    .timeline-item {
+      padding: 0.8rem !important;
+      margin-bottom: 0.8rem !important;
+    }
+
+    a {
+      text-decoration: none !important;
+      color: #111827 !important;
+    }
+  }
+
+  .cv-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+</style>\n

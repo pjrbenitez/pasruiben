@@ -1,0 +1,169 @@
+---
+interface Props {
+  lastUpdated?: string;
+}
+
+const { lastUpdated = "2026" } = Astro.props;
+---
+
+<header class="cv-header glass-panel">
+  <div class="cv-header-top">
+    <div class="cv-profile">
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span class="status-text mono">DISPONIBLE PARA PROYECTOS Y ARQUITECTURA</span>
+      </div>
+      <h1 class="cv-name">Pascual Ruiz Benítez</h1>
+      <p class="cv-title">Senior Backend & Cloud-Native Architect | Quant & Algorithmic Developer</p>
+      <div class="cv-meta mono">
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> España (Remoto / Híbrido)</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Actualizado: {lastUpdated}</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg> contacto@pasruiben.dev</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> pjrbenitez.github.io/pasruiben</span>
+      </div>
+    </div>
+
+    <div class="cv-actions no-print">
+      <button id="print-cv-btn" class="btn btn-primary" title="Imprimir o exportar como documento PDF">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        <span>Imprimir / Exportar PDF</span>
+      </button>
+      <a href="https://github.com/pjrbenitez" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        </svg>
+        <span>GitHub</span>
+      </a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+          <rect x="2" y="9" width="4" height="12"></rect>
+          <circle cx="4" cy="4" r="2"></circle>
+        </svg>
+        <span>LinkedIn</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="cv-summary">
+    <p>
+      Ingeniero de Software y Arquitecto Cloud-Native especializado en el diseño de <strong>sistemas distribuidos tolerantes a fallos</strong>, infraestructuras <strong>Kubernetes bajo GitOps (ArgoCD)</strong> y pipelines de streaming de alta concurrencia con <strong>Java 21, Spring Cloud y Apache Kafka</strong>.
+    </p>
+    <p>
+      Complemento el rigor ingenieril con el modelado algorítmico en <strong>trading cuantitativo (MQL5/Python)</strong>, la programación de motores y simulación en <strong>Godot 4 (C#/WASM)</strong>, y la sensibilidad interpretativa y de producción acústica del <strong>piano clásico de alta fidelidad</strong>.
+    </p>
+  </div>
+</header>
+
+<script>
+  function setupPrintButton() {
+    const btn = document.getElementById('print-cv-btn');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        window.print();
+      });
+    }
+  }
+  setupPrintButton();
+  document.addEventListener('astro:page-load', setupPrintButton);
+</script>
+
+<style>
+  .cv-header {
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
+    border: 1px solid var(--color-border-subtle);
+    background: linear-gradient(135deg, rgba(20, 24, 33, 0.85) 0%, rgba(13, 16, 23, 0.95) 100%);
+  }
+
+  .cv-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+  }
+
+  .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--color-accent-green);
+    background: rgba(16, 185, 129, 0.1);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    margin-bottom: var(--space-3);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent-green);
+    box-shadow: 0 0 8px var(--color-accent-green);
+    animation: pulse 2s infinite;
+  }
+
+  .cv-name {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+    letter-spacing: -0.02em;
+  }
+
+  .cv-title {
+    font-size: var(--text-base);
+    color: var(--color-accent-blue);
+    font-weight: 600;
+    margin-bottom: var(--space-4);
+  }
+
+  .cv-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .cv-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .cv-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .cv-summary {
+    border-top: 1px solid var(--color-border-subtle);
+    padding-top: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .cv-summary strong {
+    color: var(--color-text-primary);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+</style>\n
