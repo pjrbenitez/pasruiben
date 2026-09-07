@@ -60,7 +60,7 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - Preparar contenedor para posible embebido WebGL/WebAssembly de prototipos jugables ligeros.
   - *Criterio de AceptaciÃ³n:* GalerÃ­a de juegos atractiva con desglose de retos de desarrollo y enlaces a cÃ³digo o builds ejecutables.
 
-- [ ] **Tarea 7: Auditorio Multimedia: Piano ClÃ¡sico y EdiciÃ³n de VÃ­deo (`/multimedia`)**
+- [x] **Tarea 7: Auditorio Multimedia: Piano ClÃ¡sico y EdiciÃ³n de VÃ­deo (`/multimedia`)**
   - Desarrollar un reproductor de audio customizado, minimalista y persistente para escuchar interpretaciones de piano clÃ¡sico.
   - Crear catÃ¡logo de piezas musicales con notas explicativas de contexto histÃ³rico e interpretaciÃ³n.
   - SecciÃ³n de muestras audiovisuales y postproducciÃ³n de vÃ­deo (motion graphics, gradaciÃ³n de color).
@@ -87,6 +87,8 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - ValidaciÃ³n de enlaces relativos y resoluciÃ³n de base path en el entorno de producciÃ³n.
   - Documentar instrucciones para actualizaciÃ³n continua de contenido y creaciÃ³n de releases.
   - *Criterio de AceptaciÃ³n:* Sitio web 100% operativo en GitHub Pages, con todas las rutas y assets resolviÃ©ndose correctamente.
+
+
 
 
 

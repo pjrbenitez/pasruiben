@@ -68,8 +68,34 @@ const gamedevCollection = defineCollection({
   }),
 });
 
+const multimediaCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    category: z.string(),
+    composer: z.string().optional(),
+    opus: z.string().optional(),
+    difficulty: z.string(),
+    order: z.number().default(1),
+    featured: z.boolean().default(false),
+    duration: z.string(),
+    recordingSpecs: z.object({
+      sampleRate: z.string(),
+      bitDepth: z.string(),
+      microphones: z.string(),
+      dawsAndTools: z.string(),
+    }),
+    historicalContext: z.string(),
+    interpretationNotes: z.array(z.string()),
+    highlights: z.array(z.string()),
+    waveformBars: z.array(z.number()),
+  }),
+});
+
 export const collections = {
   backend: backendCollection,
   trading: tradingCollection,
   gamedev: gamedevCollection,
+  multimedia: multimediaCollection,
 };
