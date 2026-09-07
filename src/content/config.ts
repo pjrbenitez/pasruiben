@@ -46,7 +46,30 @@ const tradingCollection = defineCollection({
   }),
 });
 
+const gamedevCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    genre: z.string(),
+    engineVersion: z.string(),
+    order: z.number().default(1),
+    featured: z.boolean().default(false),
+    playable: z.boolean().default(false),
+    metrics: z.object({
+      targetFps: z.string(),
+      physicsTickRate: z.string(),
+      drawCallsOptimized: z.string(),
+      memoryFootprint: z.string(),
+    }),
+    architecturePatterns: z.array(z.string()),
+    technologies: z.array(z.string()),
+    highlights: z.array(z.string()),
+  }),
+});
+
 export const collections = {
   backend: backendCollection,
   trading: tradingCollection,
+  gamedev: gamedevCollection,
 };

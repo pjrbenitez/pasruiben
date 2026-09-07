@@ -54,7 +54,7 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - Integrar componente interactivo ligero para visualizar curvas de balance / equidad simuladas.
   - *Criterio de AceptaciÃ³n:* PresentaciÃ³n rigurosa de trading cuantitativo con mÃ©tricas comprensibles y transparentes.
 
-- [ ] **Tarea 6: SecciÃ³n de Desarrollo en Godot & SimulaciÃ³n (`/gamedev`)**
+- [x] **Tarea 6: SecciÃ³n de Desarrollo en Godot & SimulaciÃ³n (`/gamedev`)**
   - Configurar la *Content Collection* para proyectos y prototipos de Godot Engine.
   - Implementar showcase con capturas, vÃ­deos demostrativos de mecÃ¡nicas y anÃ¡lisis de arquitectura de software para juegos (State Machines, optimizaciÃ³n de fÃ­sicas).
   - Preparar contenedor para posible embebido WebGL/WebAssembly de prototipos jugables ligeros.
@@ -87,6 +87,8 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - ValidaciÃ³n de enlaces relativos y resoluciÃ³n de base path en el entorno de producciÃ³n.
   - Documentar instrucciones para actualizaciÃ³n continua de contenido y creaciÃ³n de releases.
   - *Criterio de AceptaciÃ³n:* Sitio web 100% operativo en GitHub Pages, con todas las rutas y assets resolviÃ©ndose correctamente.
+
+
 
 
 

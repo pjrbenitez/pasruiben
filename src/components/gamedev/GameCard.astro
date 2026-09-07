@@ -1,0 +1,297 @@
+---
+import { getUrl } from '../../utils/paths';
+
+interface Props {
+  project: {
+    slug: string;
+    data: {
+      title: string;
+      description: string;
+      genre: string;
+      engineVersion: string;
+      playable: boolean;
+      metrics: {
+        targetFps: string;
+        physicsTickRate: string;
+        drawCallsOptimized: string;
+        memoryFootprint: string;
+      };
+      architecturePatterns: string[];
+      technologies: string[];
+      highlights: string[];
+      featured: boolean;
+    };
+  };
+}
+
+const { project } = Astro.props;
+const { slug, data } = project;
+---
+
+<article class="game-card glass-panel">
+  <div class="card-header">
+    <div class="header-badges">
+      <span class="badge badge-gamedev">{data.genre}</span>
+      <span class="engine-badge">{data.engineVersion}</span>
+    </div>
+    {data.playable && <span class="playable-badge">Playable Web Demo</span>}
+  </div>
+
+  <h3 class="game-title">
+    <a href={getUrl(`/gamedev/${slug}`)}>
+      {data.title}
+    </a>
+  </h3>
+
+  <p class="game-desc">{data.description}</p>
+
+  <!-- Métricas de Rendimiento del Motor -->
+  <div class="engine-metrics-strip">
+    <div class="em-box">
+      <span class="em-val em-purple">{data.metrics.targetFps}</span>
+      <span class="em-lbl">Performance</span>
+    </div>
+    <div class="em-box">
+      <span class="em-val">{data.metrics.physicsTickRate}</span>
+      <span class="em-lbl">Physics Tick</span>
+    </div>
+    <div class="em-box">
+      <span class="em-val">{data.metrics.drawCallsOptimized}</span>
+      <span class="em-lbl">Draw Calls</span>
+    </div>
+    <div class="em-box">
+      <span class="em-val">{data.metrics.memoryFootprint}</span>
+      <span class="em-lbl">Memory Target</span>
+    </div>
+  </div>
+
+  <!-- Patrones de Arquitectura Clave -->
+  <div class="patterns-box">
+    <h4 class="patterns-heading">Patrones & Arquitectura</h4>
+    <ul class="patterns-list">
+      {data.architecturePatterns.slice(0, 3).map((pat) => (
+        <li>
+          <svg class="p-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>{pat}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="card-footer">
+    <div class="tech-pills">
+      {data.technologies.map((t) => (
+        <span class="tech-pill">{t}</span>
+      ))}
+    </div>
+
+    <a href={getUrl(`/gamedev/${slug}`)} class="btn-read-game">
+      <span>Ver Análisis Técnico</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+  </div>
+</article>
+
+<style>
+  .game-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-subtle);
+    transition: all var(--transition-base);
+  }
+
+  .game-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(192, 132, 252, 0.4);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(192, 132, 252, 0.12);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+
+  .header-badges {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .engine-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-text-muted);
+  }
+
+  .playable-badge {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: #c084fc;
+    background: rgba(192, 132, 252, 0.1);
+    border: 1px solid rgba(192, 132, 252, 0.25);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .game-title {
+    font-size: var(--text-xl);
+    line-height: 1.3;
+    margin-bottom: var(--space-3);
+  }
+
+  .game-title a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .game-title a:hover {
+    color: var(--accent-gamedev);
+  }
+
+  .game-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+  }
+
+  .engine-metrics-strip {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    background: rgba(7, 11, 19, 0.6);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .engine-metrics-strip {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .em-box {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .em-val {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    color: var(--color-text-primary);
+  }
+
+  .em-purple {
+    color: var(--accent-gamedev);
+  }
+
+  .em-lbl {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-text-muted);
+  }
+
+  .patterns-box {
+    margin-bottom: var(--space-6);
+  }
+
+  .patterns-heading {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .patterns-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .patterns-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: 1.45;
+  }
+
+  .p-icon {
+    color: var(--accent-gamedev);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  @media (min-width: 768px) {
+    .card-footer {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .tech-pill {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--color-text-secondary);
+    background: var(--color-bg-surface);
+    padding: 2px 7px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .btn-read-game {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--accent-gamedev);
+    text-decoration: none;
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-sm);
+    background: var(--accent-gamedev-subtle);
+    border: 1px solid rgba(192, 132, 252, 0.2);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  .btn-read-game:hover {
+    background: var(--accent-gamedev);
+    color: #070b13;
+    box-shadow: 0 0 16px rgba(192, 132, 252, 0.4);
+  }
+</style>
