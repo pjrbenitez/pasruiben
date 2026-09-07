@@ -1,0 +1,308 @@
+---
+import { getUrl } from '../../utils/paths';
+
+interface Props {
+  strategy: {
+    slug: string;
+    data: {
+      title: string;
+      description: string;
+      strategyType: string;
+      platform: string;
+      instruments: string[];
+      timeframe: string;
+      metrics: {
+        profitFactor: number;
+        sharpeRatio: number;
+        maxDrawdown: string;
+        winRate: string;
+        totalTrades: number;
+      };
+      highlights: string[];
+      featured: boolean;
+    };
+  };
+}
+
+const { strategy } = Astro.props;
+const { slug, data } = strategy;
+---
+
+<article class="strategy-card glass-panel">
+  <div class="card-header">
+    <div class="header-badges">
+      <span class="badge badge-trading">{data.strategyType}</span>
+      <span class="platform-badge">{data.platform}</span>
+    </div>
+    {data.featured && <span class="featured-tag">Estrategia Destacada</span>}
+  </div>
+
+  <h3 class="strategy-title">
+    <a href={getUrl(`/trading/${slug}`)}>
+      {data.title}
+    </a>
+  </h3>
+
+  <p class="strategy-desc">{data.description}</p>
+
+  <!-- Métricas Clave Grid -->
+  <div class="metrics-grid">
+    <div class="m-card">
+      <span class="m-value m-green">{data.metrics.profitFactor.toFixed(2)}</span>
+      <span class="m-label">Profit Factor</span>
+    </div>
+    <div class="m-card">
+      <span class="m-value m-green">{data.metrics.sharpeRatio.toFixed(2)}</span>
+      <span class="m-label">Sharpe Ratio</span>
+    </div>
+    <div class="m-card">
+      <span class="m-value">{data.metrics.maxDrawdown}</span>
+      <span class="m-label">Max Drawdown</span>
+    </div>
+    <div class="m-card">
+      <span class="m-value">{data.metrics.winRate}</span>
+      <span class="m-label">Win Rate</span>
+    </div>
+  </div>
+
+  <!-- Puntos Clave -->
+  <div class="highlights-box">
+    <h4 class="highlights-heading">Reglas & Ventajas</h4>
+    <ul class="highlights-items">
+      {data.highlights.slice(0, 3).map((h) => (
+        <li>
+          <svg class="h-bullet" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>{h}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="card-footer">
+    <div class="instruments-row">
+      <span class="tf-badge">TF: {data.timeframe}</span>
+      {data.instruments.map((ins) => (
+        <span class="instrument-pill">{ins}</span>
+      ))}
+    </div>
+
+    <a href={getUrl(`/trading/${slug}`)} class="btn-read-strategy">
+      <span>Ver Backtest & Código</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+  </div>
+</article>
+
+<style>
+  .strategy-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-subtle);
+    transition: all var(--transition-base);
+  }
+
+  .strategy-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(16, 185, 129, 0.1);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+
+  .header-badges {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .platform-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-text-muted);
+  }
+
+  .featured-tag {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--accent-trading);
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .strategy-title {
+    font-size: var(--text-xl);
+    line-height: 1.3;
+    margin-bottom: var(--space-3);
+  }
+
+  .strategy-title a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .strategy-title a:hover {
+    color: var(--accent-trading);
+  }
+
+  .strategy-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    background: rgba(7, 11, 19, 0.6);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .metrics-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .m-card {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .m-value {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--text-lg);
+    color: var(--color-text-primary);
+  }
+
+  .m-green {
+    color: var(--accent-trading);
+  }
+
+  .m-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-text-muted);
+  }
+
+  .highlights-box {
+    margin-bottom: var(--space-6);
+  }
+
+  .highlights-heading {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .highlights-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .highlights-items li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: 1.45;
+  }
+
+  .h-bullet {
+    color: var(--accent-trading);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  @media (min-width: 768px) {
+    .card-footer {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .instruments-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .tf-badge {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--accent-trading);
+    background: rgba(16, 185, 129, 0.08);
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+  }
+
+  .instrument-pill {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--color-text-secondary);
+    background: var(--color-bg-surface);
+    padding: 2px 7px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .btn-read-strategy {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--accent-trading);
+    text-decoration: none;
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-sm);
+    background: var(--accent-trading-subtle);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  .btn-read-strategy:hover {
+    background: var(--accent-trading);
+    color: #070b13;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
+  }
+</style>

@@ -48,7 +48,7 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - Integrar visualizadores de diagramas de arquitectura (SVG / Mermaid / componentes interactivos).
   - *Criterio de AceptaciÃ³n:* Fichas tÃ©cnicas completas que demuestren profundidad de ingenierÃ­a senior con diagramas legibles y cÃ³digo estructurado.
 
-- [ ] **Tarea 5: SecciÃ³n de Algoritmia y Trading Cuantitativo (`/trading`)**
+- [x] **Tarea 5: SecciÃ³n de Algoritmia y Trading Cuantitativo (`/trading`)**
   - Configurar la *Content Collection* para estrategias de trading y EAs (MQL4, MQL5, Python).
   - Implementar tarjetas de proyectos con desglose de lÃ³gica operativa, gestiÃ³n de riesgo y mÃ©tricas auditables (Profit Factor, Sharpe Ratio, Max Drawdown).
   - Integrar componente interactivo ligero para visualizar curvas de balance / equidad simuladas.
@@ -87,6 +87,8 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - ValidaciÃ³n de enlaces relativos y resoluciÃ³n de base path en el entorno de producciÃ³n.
   - Documentar instrucciones para actualizaciÃ³n continua de contenido y creaciÃ³n de releases.
   - *Criterio de AceptaciÃ³n:* Sitio web 100% operativo en GitHub Pages, con todas las rutas y assets resolviÃ©ndose correctamente.
+
+
 
 
 

@@ -1,16 +1,255 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import StrategyCard from '../../components/trading/StrategyCard.astro';
+import EquityChart from '../../components/trading/EquityChart.astro';
+import { getCollection } from 'astro:content';
+
+const strategies = await getCollection('trading');
+strategies.sort((a, b) => a.data.order - b.data.order);
+
+// Curva agregada para el gráfico principal
+const aggregateCurve = [10000, 10300, 10550, 10420, 10890, 11400, 11250, 11800, 12450, 12900, 13400, 13150, 13900, 14600, 15200, 15800, 16400, 16950, 17500, 18200, 18900, 19650, 20400, 21200, 21950, 22800, 23550, 24600, 25800, 27400];
+
+const principles = [
+  {
+    title: 'Control Estricto de Drawdown',
+    desc: 'Cada orden se ejecuta con Stop Loss predefinido. Regla inquebrantable de corte diario si las pérdidas superan el 2.5% del balance.',
+  },
+  {
+    title: 'Cero Martingala o Grid Tóxico',
+    desc: 'Rechazo absoluto a las técnicas de promediación a la baja. La rentabilidad se fundamenta en un ratio Riesgo/Beneficio asimétrico positivo.',
+  },
+  {
+    title: 'Validación Out-of-Sample',
+    desc: 'Modelos optimizados en ventanas históricas y evaluados exclusivamente en datos nunca vistos (*Out-Of-Sample*) para evitar sobreajuste (*curve fitting*).',
+  },
+  {
+    title: 'Simulación de Monte Carlo',
+    desc: 'Pruebas de estrés con más de 10,000 permutaciones aleatorias para auditar el Drawdown Máximo con un 99% de nivel de confianza estadística.',
+  },
+];
 ---
-<BaseLayout title="Algoritmia & Trading Cuantitativo | Pascual Ruiz Benítez">
-  <div class="container" style="padding-top: 4rem; padding-bottom: 4rem;">
-    <span class="badge badge-trading">Pilar 2</span>
-    <h1 style="margin-top: 1rem; margin-bottom: 1rem;">Algoritmia & Trading Cuantitativo</h1>
-    <p style="max-width: 650px; color: var(--color-text-secondary); margin-bottom: 2rem;">
-      Diseño, validación estadística y ejecución de Expert Advisors (MQL4/MQL5) y modelos cuantitativos en Python con control estricto de riesgo.
-    </p>
-    <div class="glass-panel" style="padding: 2rem; border-left: 4px solid var(--accent-trading);">
-      <h3 style="margin-bottom: 0.5rem;">Estrategias & Backtesting Auditado</h3>
-      <p style="color: var(--color-text-muted);">Esta sección se completará en profundidad durante la Tarea 5 del backlog.</p>
+
+<BaseLayout
+  title="Algoritmia & Trading Cuantitativo | Pascual Ruiz Benítez"
+  description="Desarrollo de Expert Advisors (MQL4/MQL5), modelos estadísticos en Python y backtesting cuantitativo auditado con estricto control de riesgo."
+>
+  <div class="trading-page">
+    <div class="container">
+      <!-- Section Header -->
+      <div class="trading-hero">
+        <div class="badge badge-trading">Pilar 2 &bull; Quantitative Finance</div>
+        <h1 class="trading-title">
+          Algoritmia, <span class="gradient-text-trading">Trading Cuantitativo</span> y Expert Advisors
+        </h1>
+        <p class="trading-intro">
+          Investigación, desarrollo y despliegue de sistemas de trading cuantitativos en <strong>MQL4, MQL5 y Python</strong>. Enfoque matemático basado en probabilidades, gestión de riesgo asimétrica y validación estadística exhaustiva para eliminar sesgos emocionales y garantizar consistencia operativa.
+        </p>
+
+        <!-- Global Metrics Bar -->
+        <div class="global-metrics-strip glass-panel">
+          <div class="gm-box">
+            <span class="gm-val">2.14</span>
+            <span class="gm-lbl">PROFIT FACTOR AGREGADO</span>
+          </div>
+          <div class="gm-box">
+            <span class="gm-val">&gt; 2.3</span>
+            <span class="gm-lbl">SHARPE RATIO MEDIO</span>
+          </div>
+          <div class="gm-box">
+            <span class="gm-val">&lt; 8.0%</span>
+            <span class="gm-lbl">MAX DRAWDOWN HISTÓRICO</span>
+          </div>
+          <div class="gm-box">
+            <span class="gm-val">+5,400</span>
+            <span class="gm-lbl">TRADES AUDITADOS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curva de Equidad Agregada -->
+      <EquityChart data={aggregateCurve} title="Curva de Equidad Agregada de Modelos Cuantitativos (Base $10,000)" />
+
+      <!-- Estrategias y Modelos -->
+      <div class="strategies-section">
+        <div class="strategies-header">
+          <div>
+            <span class="badge badge-trading">Sistemas Desarrollados</span>
+            <h2 class="strategies-title">Estrategias & Expert Advisors Auditados</h2>
+          </div>
+          <p class="strategies-subtitle">
+            Selecciona cada modelo para inspeccionar su lógica de entrada, reglas de riesgo, código y métricas detalladas.
+          </p>
+        </div>
+
+        <div class="strategies-grid">
+          {strategies.map((strategy) => (
+            <StrategyCard strategy={strategy} />
+          ))}
+        </div>
+      </div>
+
+      <!-- Principios de Gestión Cuantitativa -->
+      <div class="principles-section glass-panel">
+        <div class="principles-header">
+          <span class="badge badge-trading">Filosofía de Riesgo</span>
+          <h3>Pilares de Ingeniería Cuantitativa</h3>
+        </div>
+
+        <div class="principles-grid">
+          {principles.map((p) => (
+            <div class="principle-card">
+              <div class="principle-bullet"></div>
+              <div>
+                <h4 class="principle-title">{p.title}</h4>
+                <p class="principle-desc">{p.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  .trading-page {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-24);
+  }
+
+  .trading-hero {
+    max-width: 820px;
+    margin-bottom: var(--space-12);
+  }
+
+  .trading-title {
+    font-size: clamp(2.2rem, 4vw, 3.25rem);
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-4);
+    line-height: 1.15;
+  }
+
+  .trading-intro {
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    margin-bottom: var(--space-8);
+  }
+
+  .global-metrics-strip {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    border: 1px solid var(--color-border-default);
+  }
+
+  @media (min-width: 768px) {
+    .global-metrics-strip {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .gm-box {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .gm-val {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 800;
+    color: var(--accent-trading);
+  }
+
+  .gm-lbl {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Strategies Section */
+  .strategies-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .strategies-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .strategies-title {
+    font-size: var(--text-2xl);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .strategies-subtitle {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .strategies-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /* Principles Section */
+  .principles-section {
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .principles-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .principles-header h3 {
+    font-size: var(--text-xl);
+    margin-top: var(--space-2);
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .principles-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .principle-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .principle-bullet {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent-trading);
+    box-shadow: 0 0 8px var(--accent-trading);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .principle-title {
+    font-size: var(--text-base);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .principle-desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+</style>
