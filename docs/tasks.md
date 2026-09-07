@@ -42,7 +42,7 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - AÃ±adir secciÃ³n de "Proyectos Destacados" con enlaces directos a las Ã¡reas correspondientes.
   - *Criterio de AceptaciÃ³n:* PÃ¡gina de inicio visualmente atractiva, sin contenido de relleno (*lorem ipsum*), con transiciones suaves y tiempos de carga instantÃ¡neos.
 
-- [ ] **Tarea 4: SecciÃ³n de Backend e Infraestructura Cloud (`/backend`)**
+- [x] **Tarea 4: SecciÃ³n de Backend e Infraestructura Cloud (`/backend`)**
   - Configurar la *Content Collection* para proyectos de Backend (Spring Cloud, Kubernetes, ArgoCD, Kafka).
   - DiseÃ±ar tarjetas interactivas de casos de estudio mostrando: arquitectura, tecnologÃ­as, desafÃ­os tÃ©cnicos y soluciones implementadas.
   - Integrar visualizadores de diagramas de arquitectura (SVG / Mermaid / componentes interactivos).
@@ -87,6 +87,8 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - ValidaciÃ³n de enlaces relativos y resoluciÃ³n de base path en el entorno de producciÃ³n.
   - Documentar instrucciones para actualizaciÃ³n continua de contenido y creaciÃ³n de releases.
   - *Criterio de AceptaciÃ³n:* Sitio web 100% operativo en GitHub Pages, con todas las rutas y assets resolviÃ©ndose correctamente.
+
+
 
 
 

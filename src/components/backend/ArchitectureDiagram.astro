@@ -1,0 +1,220 @@
+---
+// Diagrama de arquitectura SVG interactivo para la sección de Backend & Infraestructura
+---
+
+<div class="architecture-diagram glass-panel">
+  <div class="diagram-header">
+    <div class="diagram-title">
+      <span class="badge badge-backend">Topología Cloud-Native</span>
+      <h3>Arquitectura de Referencia: Microservicios Resilientes & GitOps</h3>
+    </div>
+    <div class="diagram-legend">
+      <div class="legend-item"><span class="legend-dot dot-cyan"></span> Tráfico / API</div>
+      <div class="legend-item"><span class="legend-dot dot-green"></span> Eventos Kafka</div>
+      <div class="legend-item"><span class="legend-dot dot-purple"></span> GitOps / K8s</div>
+    </div>
+  </div>
+
+  <div class="diagram-canvas">
+    <svg viewBox="0 0 920 440" fill="none" xmlns="http://www.w3.org/2000/svg" class="svg-diagram">
+      <defs>
+        <linearGradient id="grad-cyan" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#0284c7" stop-opacity="0.1"/>
+        </linearGradient>
+        <linearGradient id="grad-green" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#059669" stop-opacity="0.1"/>
+        </linearGradient>
+        <linearGradient id="grad-purple" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#a855f7" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.1"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Zona Kubernetes Cluster Boundary -->
+      <rect x="230" y="30" width="670" height="380" rx="16" fill="rgba(14, 20, 34, 0.5)" stroke="rgba(56, 189, 248, 0.2)" stroke-width="1.5" stroke-dasharray="6 4" />
+      <text x="250" y="55" fill="#38bdf8" font-family="monospace" font-size="12" font-weight="700">KUBERNETES CLUSTER (EKS / GitOps Managed)</text>
+
+      <!-- Clientes Externos -->
+      <g class="node-group">
+        <rect x="20" y="160" width="160" height="90" rx="10" fill="rgba(17, 24, 39, 0.85)" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="100" y="195" fill="#f3f4f6" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">Clients / Users</text>
+        <text x="100" y="220" fill="#9ca3af" font-family="monospace" font-size="11" text-anchor="middle">Web, Mobile & Apps</text>
+      </g>
+
+      <!-- Flecha Clientes -> Gateway -->
+      <path d="M 180 205 L 260 205" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 4" class="flowing-line" />
+
+      <!-- API Gateway -->
+      <g class="node-group">
+        <rect x="260" y="140" width="140" height="130" rx="12" fill="url(#grad-cyan)" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="330" y="180" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="700" text-anchor="middle">SPRING CLOUD</text>
+        <text x="330" y="202" fill="#ffffff" font-family="sans-serif" font-size="15" font-weight="700" text-anchor="middle">API Gateway</text>
+        <text x="330" y="225" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">Auth &bull; Rate Limit</text>
+        <text x="330" y="245" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">Circuit Breaker</text>
+      </g>
+
+      <!-- Flechas Gateway -> Microservicios -->
+      <path d="M 400 180 L 460 110" stroke="#38bdf8" stroke-width="1.5" />
+      <path d="M 400 205 L 460 205" stroke="#38bdf8" stroke-width="1.5" />
+      <path d="M 400 230 L 460 300" stroke="#38bdf8" stroke-width="1.5" />
+
+      <!-- Microservicio 1: Auth & User Service -->
+      <g class="node-group">
+        <rect x="460" y="70" width="170" height="75" rx="8" fill="rgba(17, 24, 39, 0.9)" stroke="#38bdf8" stroke-width="1.2"/>
+        <text x="545" y="100" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700" text-anchor="middle">Auth & Identity</text>
+        <text x="545" y="122" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">JWT &bull; OAuth2 / OIDC</text>
+      </g>
+
+      <!-- Microservicio 2: Core Business / Orders -->
+      <g class="node-group">
+        <rect x="460" y="170" width="170" height="75" rx="8" fill="rgba(17, 24, 39, 0.9)" stroke="#38bdf8" stroke-width="1.2"/>
+        <text x="545" y="200" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700" text-anchor="middle">Core Service</text>
+        <text x="545" y="222" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">Spring Boot 3 &bull; Saga</text>
+      </g>
+
+      <!-- Microservicio 3: Data & Analytics -->
+      <g class="node-group">
+        <rect x="460" y="270" width="170" height="75" rx="8" fill="rgba(17, 24, 39, 0.9)" stroke="#38bdf8" stroke-width="1.2"/>
+        <text x="545" y="300" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700" text-anchor="middle">Processing Service</text>
+        <text x="545" y="322" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">High-Throughput</text>
+      </g>
+
+      <!-- Apache Kafka Broker Event Bus -->
+      <g class="node-group">
+        <rect x="690" y="100" width="180" height="150" rx="12" fill="url(#grad-green)" stroke="#10b981" stroke-width="1.5"/>
+        <text x="780" y="135" fill="#34d399" font-family="monospace" font-size="11" font-weight="700" text-anchor="middle">EVENT STREAMING</text>
+        <text x="780" y="160" fill="#ffffff" font-family="sans-serif" font-size="16" font-weight="800" text-anchor="middle">Apache Kafka</text>
+        <text x="780" y="185" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">Cluster Multizonas</text>
+        <text x="780" y="205" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">Outbox Pattern</text>
+        <text x="780" y="225" fill="#34d399" font-family="monospace" font-size="10" text-anchor="middle">Particionamiento Optimizado</text>
+      </g>
+
+      <!-- Flechas Microservicios -> Kafka -->
+      <path d="M 630 110 L 690 145" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4 2"/>
+      <path d="M 630 205 L 690 180" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4 2"/>
+      <path d="M 630 300 L 690 225" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4 2"/>
+
+      <!-- Base de Datos & Caché -->
+      <g class="node-group">
+        <rect x="690" y="280" width="85" height="90" rx="8" fill="rgba(17, 24, 39, 0.9)" stroke="#0284c7" stroke-width="1.2"/>
+        <text x="732" y="318" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700" text-anchor="middle">PostgreSQL</text>
+        <text x="732" y="340" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">ACID Cluster</text>
+      </g>
+
+      <g class="node-group">
+        <rect x="785" y="280" width="85" height="90" rx="8" fill="rgba(17, 24, 39, 0.9)" stroke="#ef4444" stroke-width="1.2"/>
+        <text x="827" y="318" fill="#f87171" font-family="sans-serif" font-size="12" font-weight="700" text-anchor="middle">Redis</text>
+        <text x="827" y="340" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">Distributed Cache</text>
+      </g>
+
+      <!-- ArgoCD & GitOps Control Plane -->
+      <g class="node-group">
+        <rect x="30" y="290" width="180" height="95" rx="10" fill="url(#grad-purple)" stroke="#a855f7" stroke-width="1.5"/>
+        <text x="120" y="322" fill="#c084fc" font-family="monospace" font-size="11" font-weight="700" text-anchor="middle">GITOPS ENGINE</text>
+        <text x="120" y="345" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">ArgoCD & Rollouts</text>
+        <text x="120" y="365" fill="#94a3b8" font-family="monospace" font-size="9.5" text-anchor="middle">Canary &bull; Sync Declarativa</text>
+      </g>
+
+      <!-- Flecha ArgoCD -> Kubernetes -->
+      <path d="M 210 338 L 260 338" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <text x="235" y="330" fill="#c084fc" font-family="monospace" font-size="9" text-anchor="middle">Sync</text>
+    </svg>
+  </div>
+
+  <div class="diagram-footer">
+    <p>
+      <strong>Garantías de Diseño:</strong> Aislamiento de capas de fallo con <em>Circuit Breakers</em>, consistencia eventual no bloqueante con <em>Kafka</em>, y reconciliación continua de estado inmutable mediante <em>GitOps con ArgoCD</em>.
+    </p>
+  </div>
+</div>
+
+<style>
+  .architecture-diagram {
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-default);
+    margin-bottom: var(--space-12);
+  }
+
+  .diagram-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .diagram-header {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+  }
+
+  .diagram-title h3 {
+    font-size: var(--text-lg);
+    margin-top: var(--space-2);
+  }
+
+  .diagram-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--color-text-secondary);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .dot-cyan { background: #38bdf8; box-shadow: 0 0 6px #38bdf8; }
+  .dot-green { background: #10b981; box-shadow: 0 0 6px #10b981; }
+  .dot-purple { background: #a855f7; box-shadow: 0 0 6px #a855f7; }
+
+  .diagram-canvas {
+    width: 100%;
+    overflow-x: auto;
+    padding: var(--space-2) 0;
+  }
+
+  .svg-diagram {
+    width: 100%;
+    height: auto;
+    min-width: 680px;
+    display: block;
+  }
+
+  .diagram-footer {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .diagram-footer strong {
+    color: var(--color-text-primary);
+  }
+
+  .flowing-line {
+    animation: flow 1.5s linear infinite;
+  }
+
+  @keyframes flow {
+    from { stroke-dashoffset: 16; }
+    to { stroke-dashoffset: 0; }
+  }
+</style>
