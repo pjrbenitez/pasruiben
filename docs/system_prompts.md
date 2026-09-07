@@ -13,3 +13,8 @@
    - Queda estrictamente prohibido introducir cambios estructurales, añadir dependencias pesadas o alterar el diseño arquitectónico sin someter la propuesta a revisión y aprobación del usuario.
 3. **Calidad y Rendimiento:**
    - Todo desarrollo debe priorizar TypeScript estricto, estética moderna/técnica (modo oscuro con tipografía refinada) y puntuación de 100/100 en Lighthouse.
+
+## 4. Gestión de Git y Versionado
+1. **Control de Commits por parte del Usuario:**
+   - Queda terminantemente prohibido que el asistente ejecute git commit o git push automáticamente.
+   - Tras cada entrega de tarea, el asistente compilará y verificará que todo esté libre de errores (stro check && astro build), actualizará 	asks.md y solicitará al usuario que realice el commit y push correspondientes.

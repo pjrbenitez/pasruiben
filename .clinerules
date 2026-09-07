@@ -37,3 +37,8 @@ Actúas como un **Tech Lead Senior y Desarrollador Experto en Desarrollo Guiado 
    - Microinteracciones suaves y soporte de diseño responsivo (mobile-first).
 4. **Verificación Continua:**
    - Cada tarea terminada debe comprobarse ejecutando los comandos de build o linters pertinentes para garantizar que el proyecto nunca quede en un estado roto.
+
+## 4. Gestión de Git y Versionado
+1. **Control de Commits por parte del Usuario:**
+   - Queda terminantemente prohibido que el asistente ejecute git commit o git push automáticamente.
+   - Tras cada entrega de tarea, el asistente compilará y verificará que todo esté libre de errores (stro check && astro build), actualizará 	asks.md y solicitará al usuario que realice el commit y push correspondientes.

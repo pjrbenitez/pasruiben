@@ -1,0 +1,240 @@
+---
+import { getUrl } from '../../utils/paths';
+
+const spotlights = [
+  {
+    category: 'Backend & Cloud',
+    badgeClass: 'badge-backend',
+    title: 'Arquitectura de Microservicios Cloud-Native Resiliente',
+    summary: 'Plataforma transaccional con Java 21, Spring Cloud y orquestación GitOps con ArgoCD en clúster Kubernetes multizona.',
+    metrics: '99.99% Uptime &bull; Despliegues Zero-Downtime',
+    tags: ['Spring Cloud', 'Kubernetes', 'ArgoCD', 'Kafka'],
+    href: '/backend',
+  },
+  {
+    category: 'Algoritmia & Trading',
+    badgeClass: 'badge-trading',
+    title: 'Expert Advisor de Cobertura Dinámica y Gestión de Riesgo',
+    summary: 'Estrategia algorítmica para MetaTrader 5 con dimensionamiento de lote por volatilidad y pipeline cuantitativo en Python.',
+    metrics: 'Profit Factor: 2.18 &bull; Max Drawdown &lt; 6.5%',
+    tags: ['MQL5', 'Python', 'Backtesting', 'Monte Carlo'],
+    href: '/trading',
+  },
+  {
+    category: 'Godot Engine',
+    badgeClass: 'badge-gamedev',
+    title: 'Motor de Simulación Física y Máquina de Estados 2D/3D',
+    summary: 'Arquitectura orientada a simulación interactiva con renderizado optimizado y compilación directa a WebAssembly.',
+    metrics: '60 FPS estables &bull; WebAssembly nativo',
+    tags: ['Godot 4', 'GDScript / C#', 'Shaders', 'Wasm'],
+    href: '/gamedev',
+  },
+];
+---
+
+<section class="spotlight-section">
+  <div class="container">
+    <div class="spotlight-header">
+      <div>
+        <span class="badge badge-backend">Showcase</span>
+        <h2 class="spotlight-title">Casos de Estudio & Proyectos Clave</h2>
+      </div>
+      <a href={getUrl('/cv')} class="view-all-link">
+        <span>Ver trayectoria en CV</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+
+    <div class="spotlight-grid">
+      {spotlights.map((item) => (
+        <article class="spotlight-card glass-panel">
+          <div class="card-meta">
+            <span class={`badge ${item.badgeClass}`}>{item.category}</span>
+            <span class="metrics-badge" set:html={item.metrics}></span>
+          </div>
+
+          <h3 class="card-title">
+            <a href={getUrl(item.href)}>{item.title}</a>
+          </h3>
+
+          <p class="card-summary">{item.summary}</p>
+
+          <div class="card-footer">
+            <div class="card-tags">
+              {item.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+            <a href={getUrl(item.href)} class="card-link" aria-label={`Leer caso de estudio: ${item.title}`}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .spotlight-section {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-20);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .spotlight-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-12);
+  }
+
+  @media (min-width: 768px) {
+    .spotlight-header {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  .spotlight-title {
+    font-size: var(--text-2xl);
+    margin-top: var(--space-2);
+  }
+
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--accent-backend);
+    font-weight: 600;
+    text-decoration: none;
+    transition: gap var(--transition-fast);
+  }
+
+  .view-all-link:hover {
+    gap: var(--space-3);
+    color: #ffffff;
+  }
+
+  .spotlight-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 900px) {
+    .spotlight-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .spotlight-card {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+  }
+
+  .spotlight-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-border-highlight);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .metrics-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent-trading);
+    background: rgba(16, 185, 129, 0.08);
+    padding: 3px 8px;
+    border-radius: var(--radius-xs);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    width: fit-content;
+  }
+
+  .card-title {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-3);
+    line-height: 1.35;
+  }
+
+  .card-title a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .card-title a:hover {
+    color: var(--accent-backend);
+  }
+
+  .card-summary {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.55;
+    margin-bottom: var(--space-6);
+    flex-grow: 1;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .tag {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--color-text-secondary);
+    background: var(--color-bg-surface);
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .card-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-surface);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border-subtle);
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .spotlight-card:hover .card-link {
+    background: var(--accent-backend);
+    color: #070b13;
+    border-color: var(--accent-backend);
+  }
+</style>

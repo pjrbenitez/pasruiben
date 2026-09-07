@@ -32,7 +32,7 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
 ---
 
 ### Fase 2: PÃ¡gina Principal y NÃºcleo de Contenido
-- [ ] **Tarea 3: Home / Dashboard Principal (`/`)**
+- [x] **Tarea 3: Home / Dashboard Principal (`/`)**
   - Crear la secciÃ³n Hero con presentaciÃ³n de alto impacto: titular profesional, resumen ejecutivo y llamada a la acciÃ³n hacia el CV y los proyectos.
   - DiseÃ±ar el selector interactivo de los 4 pilares:
     - Backend & Infraestructura Cloud
@@ -87,5 +87,7 @@ Este documento registra el progreso secuencial del proyecto de acuerdo con la me
   - ValidaciÃ³n de enlaces relativos y resoluciÃ³n de base path en el entorno de producciÃ³n.
   - Documentar instrucciones para actualizaciÃ³n continua de contenido y creaciÃ³n de releases.
   - *Criterio de AceptaciÃ³n:* Sitio web 100% operativo en GitHub Pages, con todas las rutas y assets resolviÃ©ndose correctamente.
+
+
 
 

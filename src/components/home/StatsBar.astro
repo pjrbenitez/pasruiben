@@ -1,0 +1,126 @@
+---
+const stats = [
+  {
+    value: '+10',
+    unit: 'Años',
+    label: 'Ingeniería & Liderazgo',
+    description: 'Arquitecturas empresariales resilientes',
+  },
+  {
+    value: '4',
+    unit: 'Pilares',
+    label: 'Especializaciones Clave',
+    description: 'Backend, Trading, Godot y Multimedia',
+  },
+  {
+    value: '99.99%',
+    unit: 'SLA',
+    label: 'Resiliencia Cloud',
+    description: 'Microservicios con tolerancia a fallos',
+  },
+  {
+    value: 'GitOps',
+    unit: 'ArgoCD',
+    label: 'Despliegues Continuos',
+    description: 'Automatización declarativa zero-downtime',
+  },
+];
+---
+
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid glass-panel">
+      {stats.map((item) => (
+        <div class="stat-card">
+          <div class="stat-number-wrapper">
+            <span class="stat-value">{item.value}</span>
+            <span class="stat-unit">{item.unit}</span>
+          </div>
+          <div class="stat-label">{item.label}</div>
+          <div class="stat-desc">{item.description}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats-section {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-12);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: var(--space-6);
+    gap: var(--space-6);
+    background: rgba(14, 20, 34, 0.6);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  @media (min-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+      padding: var(--space-8);
+    }
+  }
+
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    position: relative;
+  }
+
+  .stat-card:not(:last-child)::after {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .stat-card:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: calc(-1 * var(--space-3));
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: var(--color-border-subtle);
+      display: block;
+    }
+  }
+
+  .stat-number-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    line-height: 1.1;
+  }
+
+  .stat-unit {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent-backend);
+    font-weight: 600;
+  }
+
+  .stat-label {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .stat-desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+</style>

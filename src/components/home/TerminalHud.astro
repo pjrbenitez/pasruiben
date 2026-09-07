@@ -1,0 +1,214 @@
+---
+// Terminal HUD interactivo que simula telemetría del sistema y arquitectura
+---
+
+<div class="terminal-hud glass-panel">
+  <!-- Top Bar -->
+  <div class="terminal-header">
+    <div class="terminal-dots">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+    </div>
+    <div class="terminal-title">
+      <span class="mono-prefix">pjr@edge-node:</span> ~/architecture/telemetry.sys
+    </div>
+    <div class="terminal-status">
+      <span class="status-live-pulse"></span>
+      <span>SYNCED</span>
+    </div>
+  </div>
+
+  <!-- Terminal Content -->
+  <div class="terminal-body font-mono">
+    <div class="terminal-line">
+      <span class="cmd-prompt">&gt;</span> <span class="cmd-text">sysctl --inspect-profile --verbose</span>
+    </div>
+
+    <div class="telemetry-grid">
+      <div class="telemetry-item">
+        <span class="t-label">PROFILE:</span>
+        <span class="t-val t-val-bright">Pascual Ruiz Benítez</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="t-label">ROLE:</span>
+        <span class="t-val t-cyan">Tech Lead & Cloud Architect</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="t-label">BACKEND:</span>
+        <span class="t-val">Java 21 &bull; Spring Cloud &bull; Kafka &bull; K8s</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="t-label">DEVOPS:</span>
+        <span class="t-val">GitOps &bull; ArgoCD &bull; Zero-Downtime</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="t-label">QUANT:</span>
+        <span class="t-val t-green">MQL4/5 &bull; Python &bull; Backtesting Audit</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="t-label">GAMEDEV:</span>
+        <span class="t-val t-purple">Godot 4 &bull; Shaders &bull; WebAssembly</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="t-label">CREATIVE:</span>
+        <span class="t-val t-amber">Classical Piano &bull; Lossless &bull; Video Post</span>
+      </div>
+    </div>
+
+    <div class="terminal-line terminal-footer-line">
+      <span class="cmd-prompt">&gt;</span> <span class="cmd-cursor">READY_FOR_ENGAGEMENT_</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .terminal-hud {
+    width: 100%;
+    max-width: 580px;
+    border-radius: var(--radius-md);
+    background: rgba(10, 15, 26, 0.88);
+    border: 1px solid var(--color-border-default);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.08);
+    overflow: hidden;
+    transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .terminal-hud:hover {
+    border-color: var(--color-border-highlight);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7), 0 0 40px rgba(56, 189, 248, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(14, 20, 34, 0.95);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .terminal-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot-red { background: #ef4444; }
+  .dot-yellow { background: #f59e0b; }
+  .dot-green { background: #10b981; }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .mono-prefix {
+    color: var(--accent-backend);
+  }
+
+  .terminal-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #34d399;
+    letter-spacing: 0.05em;
+  }
+
+  .status-live-pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
+  }
+
+  .terminal-body {
+    padding: 18px 20px;
+    font-size: var(--text-xs);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  .terminal-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .cmd-prompt {
+    color: var(--accent-backend);
+    font-weight: 700;
+  }
+
+  .cmd-text {
+    color: var(--color-text-primary);
+  }
+
+  .telemetry-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 12px;
+    margin-bottom: 14px;
+    border-left: 2px solid var(--color-border-subtle);
+  }
+
+  .telemetry-item {
+    display: grid;
+    grid-template-columns: 85px 1fr;
+    gap: 8px;
+  }
+
+  .t-label {
+    color: var(--color-text-muted);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+
+  .t-val {
+    color: var(--color-text-secondary);
+  }
+
+  .t-val-bright {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .t-cyan { color: var(--accent-backend); font-weight: 600; }
+  .t-green { color: var(--accent-trading); }
+  .t-purple { color: var(--accent-gamedev); }
+  .t-amber { color: var(--accent-media); }
+
+  .terminal-footer-line {
+    margin-bottom: 0;
+    margin-top: 8px;
+  }
+
+  .cmd-cursor {
+    color: var(--accent-backend);
+    font-weight: 600;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+</style>
